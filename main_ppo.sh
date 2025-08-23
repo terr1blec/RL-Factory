@@ -41,7 +41,7 @@ python3 -m verl.trainer.main_ppo\
     actor_rollout_ref.env.name=search\
     actor_rollout_ref.env.tool_manager=qwen3\
     actor_rollout_ref.env.enable_thinking=True\
-    actor_rollout_ref.env.config_path=envs/configs/mcp_tools.pydata\
+    actor_rollout_ref.env.config_path=envs/configs/bfcl_mcp_tools.pydata\
     actor_rollout_ref.env.use_process_reward=False\
     critic.optim.lr=1e-5\
     critic.model.path=$MODEL_PATH\

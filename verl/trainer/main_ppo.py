@@ -27,7 +27,18 @@ from transformers import AutoConfig
 
 @hydra.main(config_path="config", config_name="ppo_trainer", version_base=None)
 def main(config):
-    run_ppo(config)
+    # run_ppo(config)
+    env_object = TOOL_ENV_REGISTRY[config.actor_rollout_ref.env.name](
+        config=config.actor_rollout_ref.env,
+        centralized_actor=None
+    )
+    print("=" * 20)
+    print(env_object.tool_manager.functions)
+
+    # tool_name = ""
+    # tool_instance = env_object.tool_manager.get_tool()
+
+    
 
 
 # Define a function to run the PPO-like training process

@@ -13,6 +13,7 @@ from envs.utils.util import ToolServiceError, DocParserError
 from envs.utils.mcp_manager import MCPManager as SSEMCPManager
 from qwen_agent.tools import TOOL_REGISTRY, MCPManager, BaseTool
 from qwen_agent.llm.schema import ASSISTANT, SYSTEM, USER, FUNCTION, ContentItem
+from envs import CLASS_FILE_PATH_MAPPING, STATELESS_CLASSES
 from envs.utils.concurrency_limiter import ConcurrencyLimiter
 from envs.utils.async_mcp_manager import AsyncMCPManager
 
@@ -361,7 +362,26 @@ class QwenManager(ToolManager):
                 })
 
         return parsed_tools
-    
+
+    def filter_tools(self, involved_classes: list[str]) -> list:
+        filtered_tools = []
+
+        # 1. Only keep the tools related to the involved classes
+        for class_name in involved_classes:
+            tool_name = CLASS_FILE_PATH_MAPPING[class_name]['name']
+            for tool in self.functions:
+                if tool_name in tool['name']:
+                    filtered_tools.append(tool)
+
+        # 2. Remove the load_scenario tools from
+        filtered_tools = [tool for tool in filtered_tools if 'load_scenario' not in tool['name']]
+
+        return filtered_tools
+        
+    def load_scenario(self, tool_name: str, initial_config: dict) -> None:
+        
+        pass
+
     def get_prompt(self, input_data, tokenizer, mode='initial', add_generation_prompt=True):
         assert mode in ['initial', 'tool_call', 'assistant_response'], 'Invalid mode: {}'.format(mode)
         base_chat = [

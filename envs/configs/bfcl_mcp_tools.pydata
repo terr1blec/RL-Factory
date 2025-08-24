@@ -1,0 +1,12 @@
+[
+    {'mcpServers': {
+        'file_system': {
+            'command': 'python3',
+            'args': ['envs/tools/file_system.py']
+        },
+        'search': {
+            'command': 'python3',
+            'args': ['envs/tools/search.py']
+        }
+    }}
+]

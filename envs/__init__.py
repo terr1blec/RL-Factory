@@ -14,3 +14,19 @@ TOOL_ENV_REGISTRY = {
     'reward_rollout': RewardRolloutEnv,
     'vision': VisionEnv
 }
+
+CLASS_FILE_PATH_MAPPING = {
+    "GorillaFileSystem": {"name": "file_system", "path": "envs.tools.file_system"},
+    "MathAPI": "",
+    "MessageAPI": "",
+    "TwitterAPI": "",
+    "TicketAPI": "",
+    "TradingBot": "",
+    "TravelAPI": "",
+    "VehicleControlAPI": "",
+}
+
+# These classes are stateless and do not require any initial configuration
+STATELESS_CLASSES = [
+    "MathAPI",
+]

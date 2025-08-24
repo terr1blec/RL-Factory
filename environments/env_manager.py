@@ -47,7 +47,7 @@ class AndroidEnvironmentManager(EnvironmentManagerBase):
 
         # public attribute often accessed by training loops/scripts
 
-    # ------------------------------------------------------------------ reset
+    # ----------------------------------reset-------------------------------- 
     def reset(self) -> Tuple[Dict[str, np.ndarray | List[str]], List[Dict]]:
         """Reset all underlying envs and return a batched multimodal obs."""
         obs_batch, infos = self.envs.reset()  # list[obs_dict]
@@ -67,7 +67,7 @@ class AndroidEnvironmentManager(EnvironmentManagerBase):
 
         return observations, infos
 
-    # ------------------------------------------------------------------- step
+    # --------------------------------- step----------------------------------
     def step(
             self,
             llm_raw_responses: List[str]
@@ -120,7 +120,7 @@ class AndroidEnvironmentManager(EnvironmentManagerBase):
         elif hasattr(self.envs, "close"):
             self.envs.close()
 
-    # ----------------------------------------------------------- helpers ----
+    # --------------------------------- helpers ------------------------------
     def _images_to_numpy(self, obs_batch: List[Dict]) -> np.ndarray:
         """
         Extract <image> token from each obs and convert to numpy array.
@@ -227,4 +227,3 @@ if __name__ == "__main__":
             print(f"[ERROR] Step {step_idx + 1} 执行失败: {e}")
 
     env_manager.close()
-    print("测试完成")

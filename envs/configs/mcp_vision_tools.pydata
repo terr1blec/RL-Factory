@@ -1,6 +1,6 @@
 [
     {'mcpServers': {
-        'rotate': {
+        'vision': {
             'command': 'python3',
             'args': ['envs/tools/rotate.py']
         }

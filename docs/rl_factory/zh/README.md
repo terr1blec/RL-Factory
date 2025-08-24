@@ -20,9 +20,9 @@
 </div>
 
 - **工具调用能力训练**
-  + **MCP工具调用**：得益于Qwen3模型的工具调用能力以及[qwen_agent](https://github.com/QwenLM/Qwen-Agent) 代码库对mcp工具的支持，我们将其集成在了RL训练过程中，用户**仅需提供mcp的config设置文件**即可无痛地一键训练！
+  + **MCP工具调用**：得益于Qwen3模型的工具调用能力以及[**qwen_agent**](https://github.com/QwenLM/Qwen-Agent) 代码库对mcp工具的支持，我们将其集成在了RL训练过程中，用户**仅需提供mcp的config设置文件**即可无痛地一键训练！
   + **高效的并行工具调用**：基于asyncio实现的异步并行工具调用，工具调用将不再成为RL训练的关键瓶颈！同时提供了**loss mask**实现只对模型生成的内容进行训练，收敛速度大大提升！
-  + **低成本工具环境搭建**：**完全解耦**的代码库设计，以极低的成本构建自己的工具调用环境！我们参考[Search-R1](https://github.com/PeterGriffinJin/Search-R1)提供了针对深度搜索的例程，后续也会实现基于WebUI的环境搭建方式。
+  + **低成本工具环境搭建**：**完全解耦**的代码库设计，以极低的成本构建自己的工具调用环境！我们参考[**Search-R1**](https://github.com/PeterGriffinJin/Search-R1)提供了针对深度搜索的例程，后续也会实现基于WebUI的环境搭建方式。
 - **多样的reward计算方式**
   + **基于规则的reward**：大体沿用verl的reward计算方式，但引入asyncio实现异步并行的奖赏计算（主要为了支持**使用工具计算reward**的需求，例如NL2SQL任务）。
   + **基于Model Judge的reward**：QwQ-32B这个模型具备较强的推理能力，能够很好地通过reasoning的方式评判每一个response，本框架能够支持这种需求下的分布式部署和调用，有极高的reward rollout效率。

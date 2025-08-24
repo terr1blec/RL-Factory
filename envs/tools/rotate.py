@@ -1,55 +1,53 @@
-
 from PIL import Image
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
+from mcp.server.fastmcp.tools.base import Tool
 from io import BytesIO
 import base64
 import binascii
+import inspect # For inspecting function signature in decorator
+from typing import Any, Callable, List # For type hints
 
-# Initialize MCP server
-mcp = FastMCP("ImageRotateServer")
-
+mcp = FastMCP("LocalServer")
 
 @mcp.tool()
-def rotate(img_base64: str = None, degree: int = None) -> str:
-    """Rotate a Pillow image by specified degrees
-    
+def rotate(degree: int, img_base64: str) -> str:
+    """Rotate the image by a specified angle.
+
     Args:
-        img_base64: Input image as base64 encoded string
-        degree: Rotation angle in degrees (positive for clockwise, negative for counterclockwise)
-        
+        degree (int): The angle of rotation (positive for clockwise, negative for counter-clockwise).
+
     Returns:
-        str: Rotated image as base64 encoded string
+        str: The Base64 encoded string of the rotated image.
     """
-    print("================= call image_rotate tool ==================")
-    
-    # Validate required parameters
+    print(f"================= Calling image_rotate tool ==================")
+    print(f"Received parameters: degree={degree}, img_base64 length={len(img_base64) if img_base64 else 0}")
+
     if img_base64 is None:
-        return "⚠️ Error: img_base64 parameter is required"
-    
+        return "Error: Missing image data"
+
     if degree is None:
-        return "⚠️ Error: degree parameter is required"
-    
+        return "Error: Missing degree parameter"
+
     try:
-        # Convert base64 string to PIL Image
         img_data = base64.b64decode(img_base64)
         img = Image.open(BytesIO(img_data))
-        
-        # Rotate the image
+
         rotated_img = img.rotate(degree, expand=True)
-        
-        # Convert PIL Image back to base64 string
+
         buffer = BytesIO()
         rotated_img.save(buffer, format='PNG')
         img_base64_output = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        
+        print(f" {'*'*50}\n\n\n\n\n use image success {'*'*50}\n\n\n")
         return img_base64_output
-        
-    except (base64.binascii.Error, binascii.Error):
-        return "⚠️ Error: Invalid base64 image data"
+
+    except binascii.Error:
+        return "Error: Invalid base64 image data"
     except Exception as e:
-        return f"⚠️ Image rotation failed: {str(e)}"
+        return f"Image rotation failed: {str(e)}"
+    
+
 
 
 if __name__ == "__main__":
-    print("\nStarting MCP Image Rotation Service...")
+    print("\n启动 MCP 图像旋转服务...")
     mcp.run(transport='stdio')

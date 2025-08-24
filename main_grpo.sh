@@ -4,8 +4,7 @@ export MODEL_PATH=/your/path/to/huggingface.co/Qwen/Qwen3-4B
 export REWARD_MODEL_PATH=/your/path/to/huggingface.co/Qwen/QwQ-32B
 export RESULT_DIR=/your/path/to/results/rl_factory/your_result_dir
 
-# MM support
-python3 -m verl.trainer.main_ppo\
+python3 -m verl.trainer.main_ppo --config-name=rl_factory_ppo_trainer \
     algorithm.adv_estimator=grpo\
     data.train_files=data/nq_search/train.parquet\
     data.val_files=data/nq_search/test.parquet\
@@ -33,7 +32,7 @@ python3 -m verl.trainer.main_ppo\
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=16\
     actor_rollout_ref.ref.fsdp_config.param_offload=False\
     actor_rollout_ref.rollout.enforce_eager=False\
-    actor_rollout_ref.rollout.free_cache_engine=False\
+    actor_rollout_ref.rollout.free_cache_engine=True\
     actor_rollout_ref.env.name=search\
     actor_rollout_ref.env.mcp_mode=stdio\
     actor_rollout_ref.env.tool_manager=qwen3\
@@ -44,7 +43,7 @@ python3 -m verl.trainer.main_ppo\
     reward_rollout.rollout.tensor_model_parallel_size=4\
     reward_rollout.rollout.gpu_memory_utilization=0.65\
     reward_rollout.rollout.model_name=$REWARD_MODEL_PATH\
-    reward_rollout.rollout.free_cache_engine=False\
+    reward_rollout.rollout.free_cache_engine=True\
     reward_rollout.rollout.response_length=2048\
     reward_model.reward_manager=parallel\
     algorithm.kl_ctrl.kl_coef=0.001\

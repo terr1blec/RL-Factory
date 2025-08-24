@@ -4,6 +4,7 @@ import numpy as np
 import os
 from environments.prompts import *
 from collections import defaultdict
+from PIL import Image
 
 
 def to_numpy(data):
@@ -155,6 +156,5 @@ class EnvironmentManagerBase:
 
         image = image.astype(np.uint8)
 
-        from PIL import Image
         image = Image.fromarray(image)
         image.save(path)

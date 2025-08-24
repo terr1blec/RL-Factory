@@ -13,6 +13,7 @@
         cat $save_path/part_* > $save_path/e5_Flat.index
         gzip -d $save_path/wiki-18.jsonl.gz
         ```
+        
     + **Process the dataset**
         ```bash
         python rag_server/data_process/nq_search.py

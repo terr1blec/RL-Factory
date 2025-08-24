@@ -1,7 +1,4 @@
 set -e -x
-FILE="$(pwd)/verl/utils/reward_score/search.py"
-FUNCTION_NAME="compute_score"
-
 
 export MODEL_PATH='your/path/to/Qwen/Qwen3-4B'
 export REWARD_MODEL_PATH=/your/path/to/huggingface.co/Qwen/QwQ-32B
@@ -9,8 +6,7 @@ export TRAIN_DATA='your/path/to/data/hotpot/train.parquet'
 export TEST_DATA='your/path/to/data/hotpot/test.parquet'
 # export VLLM_ATTENTION_BACKEND=XFORMERS
 
-# mm support
-python3 -m verl.trainer.main_ppo\
+python3 -m verl.trainer.main_ppo --config-name=rl_factory_ppo_trainer \
     algorithm.adv_estimator=gae\
     data.train_files=$TRAIN_DATA\
     data.val_files=$TEST_DATA\
@@ -52,8 +48,6 @@ python3 -m verl.trainer.main_ppo\
     reward_rollout.rollout.model_name=$REWARD_MODEL_PATH\
     reward_rollout.rollout.free_cache_engine=False\
     reward_model.reward_manager=parallel\
-    custom_reward_function.path=$FILE\
-    custom_reward_function.name=$FUNCTION_NAME\
     algorithm.kl_ctrl.kl_coef=0.001\
     trainer.critic_warmup=0\
     trainer.logger=['tensorboard']\

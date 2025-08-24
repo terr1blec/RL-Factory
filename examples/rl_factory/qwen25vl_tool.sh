@@ -1,24 +1,19 @@
-# set -e -x
-export HF_DATASETS_OFFLINE=1
-export TRANSFORMERS_OFFLINE=1
-export CUDA_DEVICE_MAX_CONNECTIONS=1
-export OMP_NUM_THREADS=1
-export HYDRA_FULL_ERROR=1
-export RAY_DEDUP_LOGS=0
+set -e -x
 
-MODEL_PATH="<PATH>"
-DATE=$(date +"%Y-%m-%d-%H:%M:%S")
-DATA="<PATH>"
+export HYDRA_FULL_ERROR=1
+
+export MODEL_PATH=Qwen/Qwen2.5-VL-3B-Instruct
+export DATE=$(date +"%Y-%m-%d-%H:%M:%S")
+export DATA=textvqav5
+export RESULT_DIR=temoutput
 
 TP=2
 Multiple=2
 Val_Multiple=2
 MINI=2
 
-# modified vlm tools
-python3 -m verl.trainer.main_ppo\
+python3 -m verl.trainer.main_ppo --config-name=rl_factory_ppo_trainer \
     algorithm.adv_estimator=grpo\
-    trainer.default_local_dir="<PATH>"\
     data.train_files=$DATA/train.parquet\
     data.val_files=$DATA/test.parquet\
     data.train_batch_size=$((TP * Multiple))\
@@ -28,16 +23,14 @@ python3 -m verl.trainer.main_ppo\
     actor_rollout_ref.model.path=$MODEL_PATH\
     actor_rollout_ref.model.use_remove_padding=True\
     actor_rollout_ref.model.enable_gradient_checkpointing=True\
-    actor_rollout_ref.actor.fsdp_config.param_offload=True\
-    actor_rollout_ref.model.enable_activation_offload=True\
-    actor_rollout_ref.actor.fsdp_config.optimizer_offload=True\
-    actor_rollout_ref.ref.fsdp_config.param_offload=True\
     actor_rollout_ref.actor.optim.lr=1e-6\
     actor_rollout_ref.actor.ppo_mini_batch_size=$((TP * MINI))\
     actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=1\
     actor_rollout_ref.actor.use_kl_loss=True\
     actor_rollout_ref.actor.kl_loss_coef=0.001\
     actor_rollout_ref.actor.kl_loss_type=low_var_kl\
+    actor_rollout_ref.actor.fsdp_config.param_offload=True\
+    actor_rollout_ref.actor.fsdp_config.optimizer_offload=True\
     actor_rollout_ref.actor.state_masking=True\
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=1\
     actor_rollout_ref.rollout.tensor_model_parallel_size=${TP}\
@@ -52,11 +45,13 @@ python3 -m verl.trainer.main_ppo\
     actor_rollout_ref.rollout.n=2\
     actor_rollout_ref.rollout.max_turns=3\
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1\
-    actor_rollout_ref.rollout.multi_turn.enable=True\
-    actor_rollout_ref.env.name=search_vl\
+    actor_rollout_ref.ref.fsdp_config.param_offload=True\
+    actor_rollout_ref.env.name=vision\
+    actor_rollout_ref.env.mmtool=True\
     actor_rollout_ref.env.mcp_mode=stdio\
     actor_rollout_ref.env.tool_manager=qwen2_5_vl\
     actor_rollout_ref.env.enable_thinking=False\
+    actor_rollout_ref.env.load_custom_chat_template=envs/configs/chat_template.jinja\
     actor_rollout_ref.env.config_path=envs/configs/mcp_vision_tools.pydata\
     actor_rollout_ref.env.use_process_reward=False\
     reward_rollout.if_use_reward_rollout=False\
@@ -65,14 +60,14 @@ python3 -m verl.trainer.main_ppo\
     reward_model.reward_manager=parallel\
     algorithm.kl_ctrl.kl_coef=0.001\
     trainer.critic_warmup=0\
-    trainer.logger=['console','tensorboard','wandb']\
+    trainer.logger=['console','tensorboard']\
     trainer.project_name='GRPO_Visual'\
     trainer.experiment_name="Visual_7B_${DATE}"\
     trainer.n_gpus_per_node=2\
     trainer.nnodes=1\
     trainer.val_before_train=False\
-    trainer.default_local_dir="<PATH>"\
+    trainer.default_local_dir=$RESULT_DIR\
     trainer.default_hdfs_dir=null\
-    trainer.save_freq=50\
-    trainer.test_freq=3\
-    trainer.total_epochs=10 2>&1 | tee.//${DATE}_grpo.log
+    trainer.save_freq=500\
+    trainer.test_freq=10\
+    trainer.total_epochs=10 2>&1 

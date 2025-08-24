@@ -20,4 +20,12 @@ from .prime import PrimeRewardManager
 from .parallel import AsyncRewardManager
 
 # Note(haibin.lin): no need to include all reward managers here in case of complicated dependencies
-__all__ = ["BatchRewardManager", "DAPORewardManager", "NaiveRewardManager", "PrimeRewardManager", "AsyncRewardManager", "register", "get_reward_manager_cls"]
+__all__ = [
+    "BatchRewardManager",
+    "DAPORewardManager",
+    "NaiveRewardManager",
+    "PrimeRewardManager",
+    "AsyncRewardManager", 
+    "register",
+    "get_reward_manager_cls",
+]

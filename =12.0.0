@@ -1,0 +1,38 @@
+Collecting pynvml
+  Downloading pynvml-12.0.0-py3-none-any.whl.metadata (5.4 kB)
+Collecting wandb
+  Downloading wandb-0.21.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (10 kB)
+Collecting nvidia-ml-py<13.0.0a0,>=12.0.0 (from pynvml)
+  Downloading nvidia_ml_py-12.575.51-py3-none-any.whl.metadata (9.3 kB)
+Requirement already satisfied: click!=8.0.0,>=7.1 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (8.2.1)
+Collecting gitpython!=3.1.29,>=1.0.0 (from wandb)
+  Downloading gitpython-3.1.45-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: packaging in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (25.0)
+Requirement already satisfied: platformdirs in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (4.3.8)
+Requirement already satisfied: protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (6.32.0)
+Requirement already satisfied: pydantic<3 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (2.11.7)
+Requirement already satisfied: pyyaml in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (6.0.2)
+Requirement already satisfied: requests<3,>=2.0.0 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (2.32.5)
+Requirement already satisfied: sentry-sdk>=2.0.0 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (2.35.0)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from wandb) (4.14.1)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from pydantic<3->wandb) (0.7.0)
+Requirement already satisfied: pydantic-core==2.33.2 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from pydantic<3->wandb) (2.33.2)
+Requirement already satisfied: typing-inspection>=0.4.0 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from pydantic<3->wandb) (0.4.1)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from requests<3,>=2.0.0->wandb) (3.4.3)
+Requirement already satisfied: idna<4,>=2.5 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from requests<3,>=2.0.0->wandb) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from requests<3,>=2.0.0->wandb) (2.5.0)
+Requirement already satisfied: certifi>=2017.4.17 in /home/vipuser/miniconda3/envs/rl/lib/python3.10/site-packages (from requests<3,>=2.0.0->wandb) (2025.8.3)
+Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Downloading pynvml-12.0.0-py3-none-any.whl (26 kB)
+Downloading nvidia_ml_py-12.575.51-py3-none-any.whl (47 kB)
+Downloading wandb-0.21.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (22.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 22.4/22.4 MB 11.5 MB/s eta 0:00:00
+Downloading gitpython-3.1.45-py3-none-any.whl (208 kB)
+Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+Installing collected packages: nvidia-ml-py, smmap, pynvml, gitdb, gitpython, wandb
+
+Successfully installed gitdb-4.0.12 gitpython-3.1.45 nvidia-ml-py-12.575.51 pynvml-12.0.0 smmap-5.0.2 wandb-0.21.1

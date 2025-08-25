@@ -13,7 +13,6 @@ from envs.utils.util import ToolServiceError, DocParserError
 from envs.utils.mcp_manager import MCPManager as SSEMCPManager
 from qwen_agent.tools import TOOL_REGISTRY, MCPManager, BaseTool
 from qwen_agent.llm.schema import ASSISTANT, SYSTEM, USER, FUNCTION, ContentItem
-from envs import CLASS_FILE_PATH_MAPPING, STATELESS_CLASSES
 from envs.utils.concurrency_limiter import ConcurrencyLimiter
 from envs.utils.async_mcp_manager import AsyncMCPManager
 
@@ -364,6 +363,7 @@ class QwenManager(ToolManager):
         return parsed_tools
 
     def filter_tools(self, involved_classes: list[str]) -> list:
+        from envs import CLASS_FILE_PATH_MAPPING
         filtered_tools = []
 
         # 1. Only keep the tools related to the involved classes

@@ -830,7 +830,7 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
 
         prompts.meta_info.update(meta_info)
 
-        if self.config.env.mmtool:
+        if self.config.env.mmtool: # for mm tool use
             su = MMToolUtils(self.tokenizer, processor=self.processor, meta_info=meta_info, config=self.rollout.config, env_object=self.env_object)
         else:
             su = ToolUtils(self.tokenizer, meta_info, self.rollout.config, env_object=self.env_object)

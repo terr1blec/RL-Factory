@@ -272,7 +272,7 @@ class vLLMRollout(BaseRollout):
         if batch_size != len(non_tensor_batch["raw_prompt_ids"]):
             raise RuntimeError("vllm sharding manager is not work properly.")
 
-        if "multi_modal_data" in non_tensor_batch:
+        if "multi_modal_data" in non_tensor_batch: # here , no more "pop",cuz we need raw_prompt_ids, multi_modal_data... for the next round tool call
             vllm_inputs = []
             for raw_prompt_ids, multi_modal_data in zip(
                 non_tensor_batch.get("raw_prompt_ids"), non_tensor_batch.get("multi_modal_data"), strict=True

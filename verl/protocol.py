@@ -818,7 +818,7 @@ class DataProto:
     #     )
 
 
-    def repeat(self, repeat_times=2, interleave=True):
+    def repeat(self, repeat_times=2, interleave=True): # deepcopy needed for mm tool use
         """
         Repeat the batch data a specified number of times with deep copy guarantee.
 

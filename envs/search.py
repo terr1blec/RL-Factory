@@ -142,7 +142,8 @@ class SearchEnv(Env):
                 else:
                     return total_format_score
         
-        # def check_alternate_tags(text, tag_pattern):
+        # def check_alternate_tags(text, tag_pattern): 
+        # # 仅能匹配<tool_call>，其他的不行
         #     # 匹配所有<tool_call>和</tool_call>标签
         #     tags = re.findall(tag_pattern, text)
             

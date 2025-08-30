@@ -13,7 +13,7 @@ import sys
 from copy import deepcopy
 
 
-class MMEnv(ABC):
+class MMEnv(ABC): # 作为多模态env的base环境
     def __init__(self, config, centralized_actor=None):
         tool_manager_name = config.get('tool_manager', 'qwen3')
         # 检查是否指定工具管理器，如果没有采用自适应模式Add commentMore actions
@@ -88,6 +88,10 @@ class MMEnv(ABC):
             'extra_info': extra_info
         }
     def _replace_all_image_pads(self, original_str, count, processor):
+        # 这是因为，在vllm rollout时，对于每个图只需要一个image pad
+        # 而模型实际推理（参与训练）时，却需要真实数量的image pad token，否则无法正常推理
+        # 因此需要实现一个特殊token在数量上的映射
+        # 数量由模型的mm processor决定
         """
         将一个字符串中所有的 '<image_pad>' 替换为指定数量的 '<image_pad>'。
 

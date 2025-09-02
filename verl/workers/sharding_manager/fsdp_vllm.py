@@ -387,24 +387,17 @@ class FSDPVLLMRewardShardingManager(FSDPVLLMShardingManager):
         # pytorch: https://pytorch.org/docs/stable/notes/cuda.html#memory-management
         # vllm: https://github.com/vllm-project/vllm/blob/v0.7.3/vllm/device_allocator/cumem.py#L103
         self.timing = {}
-        with _timer("reshard", self.timing):
+        with simple_timer("reshard", self.timing):
             get_torch_device().empty_cache()
 
-            if vllm_version in (
-                "0.5.4",
-                "0.6.3",
-            ):
-                log_gpu_memory_usage("After sync model weights in sharding manager", logger=logger)
-                del params
+            if "tags" in inspect.signature(self.inference_engine.wake_up).parameters:
+                self.inference_engine.wake_up(tags=["weights"])
             else:
-                if "tags" in inspect.signature(self.inference_engine.wake_up).parameters:
-                    self.inference_engine.wake_up(tags=["weights"])
-                else:
-                    self.inference_engine.wake_up()
+                self.inference_engine.wake_up()
 
-                get_torch_device().empty_cache()
-                if "tags" in inspect.signature(self.inference_engine.wake_up).parameters:
-                    self.inference_engine.wake_up(tags=["kv_cache"])
+            get_torch_device().empty_cache()
+            if "tags" in inspect.signature(self.inference_engine.wake_up).parameters:
+                self.inference_engine.wake_up(tags=["kv_cache"])
 
             log_gpu_memory_usage("After del state_dict and empty_cache in sharding manager", logger=logger)
 
@@ -416,13 +409,7 @@ class FSDPVLLMRewardShardingManager(FSDPVLLMShardingManager):
     @GPUMemoryLogger(role="fsdp vllm sharding_manager", logger=logger)
     def __exit__(self, exc_type, exc_value, traceback):
         # TODO(ZSL): check this
-        if vllm_version in (
-            "0.5.4",
-            "0.6.3",
-        ):
-            self.inference_engine.offload_model_weights()
-        else:
-            self.inference_engine.sleep(level=1)
+        self.inference_engine.sleep(level=1)
 
         # add empty cache after each compute
         get_torch_device().empty_cache()

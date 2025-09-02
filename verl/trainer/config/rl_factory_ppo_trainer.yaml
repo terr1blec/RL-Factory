@@ -1,5 +1,6 @@
 defaults:
   - ppo_trainer
+  - rollout@reward_rollout.rollout: reward_rollout
   - _self_
 
 actor_rollout_ref:
@@ -8,6 +9,7 @@ actor_rollout_ref:
   
   rollout:
     top_p: 0.95
+    temperature: 0.7
     max_turns: 2
     stop: ["<|im_end|>",]
     tool_response_length: 16384
@@ -59,38 +61,12 @@ reward_rollout:
     top_p: 0.95
     gpu_memory_utilization: 0.5
     tensor_model_parallel_size: 2
-    use_fire_sampling: False
     prompt_length: ${data.max_prompt_length}
     response_length: ${data.max_response_length}
-    dtype: bfloat16
-    ignore_eos: False
-    enforce_eager: True
-    free_cache_engine: True
     load_format: dummy_dtensor
     layered_summon: False
-    max_num_batched_tokens: 8192
-    max_model_len: null
     max_num_seqs: 1024
-    log_prob_micro_batch_size: null
-    log_prob_micro_batch_size_per_gpu: null
-    log_prob_use_dynamic_bsz: ${actor_rollout_ref.actor.use_dynamic_bsz}
-    log_prob_max_token_len_per_gpu: ${actor_rollout_ref.actor.ppo_max_token_len_per_gpu}
-    disable_log_stats: True
     enable_chunked_prefill: True
     use_shm: False
     trust_remote_code: False
-    do_sample: True
-    n: 1
-    max_turns: 2
     stop: ["<|im_end|>",]
-    engine_kwargs:
-      vllm:
-        swap_space: null
-      sglang:
-        attention_backend: null
-    val_kwargs:
-      top_k: -1
-      top_p: 0.95
-      temperature: 0
-      n: 1
-      do_sample: False

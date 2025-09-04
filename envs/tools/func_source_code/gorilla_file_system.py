@@ -141,8 +141,9 @@ class GorillaFileSystem:
         """
         Initialize the Gorilla file system with a root directory
         """
-        self.root: Directory
-        self._current_dir: Directory
+        # 初始化根目录
+        self.root: Directory = Directory("/", None)
+        self._current_dir: Directory = self.root
         self._api_description = "This tool belongs to the Gorilla file system. It is a simple file system that allows users to perform basic file operations such as navigating directories, creating files and directories, reading and writing to files, etc."
 
     def __eq__(self, other: object) -> bool:

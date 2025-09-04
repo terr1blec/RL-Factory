@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Union
 
-from bfcl_eval.eval_checker.multi_turn_eval.func_source_code.long_context import (
+from envs.tools.func_source_code.long_context import (
     BOOKING_RECORD_EXTENSION, CREDIT_CARD_EXTENSION)
 
 DEFAULT_STATE = {

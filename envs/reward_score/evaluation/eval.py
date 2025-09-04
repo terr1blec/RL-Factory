@@ -7,7 +7,6 @@ from tqdm import tqdm
 from datasets import load_dataset
 import argparse
 
-
 def load_line_json_data(filename):
     data = []
     with open(filename, 'r', encoding='utf-8') as f:

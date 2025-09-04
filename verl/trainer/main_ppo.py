@@ -190,7 +190,7 @@ class TaskRunner:
         elif config.actor_rollout_ref.actor.strategy == "megatron":
             assert config.actor_rollout_ref.actor.strategy == config.critic.strategy
             from verl.single_controller.ray.megatron import NVMegatronRayWorkerGroup
-            from verl.workers.megatron_workers import ActorRolloutRefWorker, AsyncActorRolloutRefWorker, CriticWorker
+            from verl.workers.megatron_workers import ActorRolloutRefWorker, AsyncActorRolloutRefWorker, CriticWorker, RewardRolloutWorker
 
             actor_rollout_cls = (
                 AsyncActorRolloutRefWorker

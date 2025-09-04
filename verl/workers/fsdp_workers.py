@@ -887,7 +887,6 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
             
         output = output.to('cpu')
 
-
         # clear kv cache
         get_torch_device().empty_cache()
         return output
@@ -1874,7 +1873,7 @@ class RewardRolloutWorker(Worker):
         self.tokenizer = hf_tokenizer(local_path, trust_remote_code=False)
         self.generation_config = get_generation_config(local_path, trust_remote_code=False)
 
-        vllm_rollout_cls = vLLMRewardRollout if self.config.rollout.mode == "sync" else vLLMAsyncRollout
+        vllm_rollout_cls = vLLMRewardRollout
         rollout = vllm_rollout_cls(
             model_path=local_path, 
             config=self.config.rollout, 

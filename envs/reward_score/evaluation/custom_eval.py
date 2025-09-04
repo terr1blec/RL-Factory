@@ -4,7 +4,6 @@ import json
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 from .commonsense_constraint import evaluation as commonsense_eval
 from .hard_constraint import evaluation as hard_eval
-
 # def convert_json_plan_to_string_format(json_plan):
 #     """
 #     将JSON格式的旅行计划转换为原始的字符串格式

@@ -1,5 +1,6 @@
 from pandas import DataFrame
 
+
 class Cities:
     def __init__(self ,path="../database/background/citySet_with_states.txt") -> None:
         self.path = path

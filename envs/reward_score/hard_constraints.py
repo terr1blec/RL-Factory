@@ -11,6 +11,7 @@ from search_r1.tool.tools.restaurants.apis import Restaurants
 from search_r1.tool.tools.googleDistanceMatrix.apis import GoogleDistanceMatrix
 from search_r1.tool.tools.attractions.apis import Attractions
 
+
 # 初始化工具实例
 flight = Flights()
 accommodation = Accommodations()

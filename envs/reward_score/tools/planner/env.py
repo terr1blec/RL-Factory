@@ -6,6 +6,7 @@ from tools.attractions.apis import Attractions
 from evaluation.hard_constraint import extract_from_to,get_valid_name_city
 import math
 
+
 class ReactEnv:
     def __init__(self):
         

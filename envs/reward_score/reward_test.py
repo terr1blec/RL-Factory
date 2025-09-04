@@ -8,6 +8,7 @@ import math
 import sys
 import os
 
+
 # 添加必要的导入
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 from search_r1.tool.tools.flights.apis import Flights

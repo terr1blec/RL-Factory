@@ -2,6 +2,7 @@ import pandas as pd
 from pandas import DataFrame
 from typing import Optional
 
+
 def extract_before_parenthesis(s):
     match = re.search(r'^(.*?)\([^)]*\)', s)
     return match.group(1) if match else s

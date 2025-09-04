@@ -6,6 +6,7 @@ def extract_before_parenthesis(s):
     match = re.search(r'^(.*?)\([^)]*\)', s)
     return match.group(1) if match else s
 
+
 class Restaurants:
     def __init__(self, path="/home/hadoop-kg-llm-ddpt/dolphinfs_hdd_hadoop-kg-llm-ddpt/chengzihao02/Travel-R1/verl/utils/reward_score/database/restaurants/clean_restaurant_2022.csv"):
         self.path = path

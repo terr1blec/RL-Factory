@@ -348,6 +348,7 @@ class FSDPVLLMShardingManager(BaseShardingManager):
     def get_dp_group(self):
         return self.device_mesh["dp"].get_group()
 
+
 class FSDPVLLMRewardShardingManager(FSDPVLLMShardingManager):
     @check_device_is_available()
     def __init__(self, inference_engine: LLM, device_mesh: DeviceMesh = None):

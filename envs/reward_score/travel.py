@@ -8,6 +8,7 @@ from verl.utils.reward_score.evaluation.custom_eval import evaluate_plan
 from typing import Dict, Optional
 from verl import DataProto
 
+
 def calculate_final_answer_reward(
     decoded_text: str, 
     hard_constraint_data: Optional[Dict] = None,

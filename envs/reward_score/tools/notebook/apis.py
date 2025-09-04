@@ -1,5 +1,6 @@
 from pandas import DataFrame
 
+
 class Notebook:
     def __init__(self) -> None:
         self.data = []

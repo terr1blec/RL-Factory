@@ -144,7 +144,7 @@ Example command to convert the model is as follows:
 
     python scripts/converter_hf_to_mcore.py \
         --hf_model_path Qwen/Qwen1.5-MoE-A2.7B-Chat \
-        --output_path /mnt/disk/Qwen/Qwen1.5-MoE-A2.7B-Chat \
+        --output_path /Qwen1.5-MoE-A2.7B-Chat \
         --use_cpu_initialization    # Only work for MoE models
 
 

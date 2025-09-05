@@ -1392,7 +1392,6 @@ class RewardRolloutWorker(MegatronWorker, DistProfilerExtension):
     @GPUMemoryLogger(role="generate_sequences", logger=logger)
     @DistProfiler.annotate(color="red")
     def generate_sequences(self, prompts: DataProto):
-        assert self._is_rollout
         prompts.batch = prompts.batch.to(get_device_name())
         meta_info = {
             "eos_token_id": self.generation_config.eos_token_id

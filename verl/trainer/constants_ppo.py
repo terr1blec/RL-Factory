@@ -21,6 +21,11 @@ PPO_RAY_RUNTIME_ENV = {
         "VLLM_LOGGING_LEVEL": "WARN",
         "VLLM_ALLOW_RUNTIME_LORA_UPDATING": "true",
         "CUDA_DEVICE_MAX_CONNECTIONS": "1",
+        # 屏蔽Python warnings和日志
+        "PYTHONWARNINGS": "ignore",
+        "LOGURU_LEVEL": "ERROR",
+        # 屏蔽MCP相关的警告
+        "MCP_LOG_LEVEL": "ERROR",
     },
 }
 

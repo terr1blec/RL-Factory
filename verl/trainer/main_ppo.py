@@ -18,6 +18,14 @@ Note that we don't combine the main with ray_trainer as ray_trainer is used by o
 import os
 import socket
 import json
+
+# 在导入其他模块之前先屏蔽MCP警告
+try:
+    from envs.utils.suppress_mcp_warnings import suppress_mcp_warnings
+    suppress_mcp_warnings()
+except ImportError:
+    pass
+
 import hydra
 import ray
 from omegaconf import OmegaConf
@@ -98,7 +106,7 @@ class TaskRunner:
         Args:
             config: Training configuration object containing all parameters needed
                    for setting up and running the PPO training process.
-        """
+        """        
         # Print the initial configuration. `resolve=True` will evaluate symbolic values.
         from pprint import pprint
 

@@ -18,13 +18,13 @@ TOOL_ENV_REGISTRY = {
 CLASS_FILE_PATH_MAPPING = {
     "SearchAPI": {"name": "search", "path": "envs.tools.search"}, 
     "GorillaFileSystem": {"name": "file_system", "path": "envs.tools.file_system"},
-    "MathAPI": "",
-    "MessageAPI": "",
-    "TwitterAPI": "",
-    "TicketAPI": "",
-    "TradingBot": "",
-    "TravelAPI": "",
-    "VehicleControlAPI": "",
+    "MathAPI": {"name": "math_api", "path": "envs.tools.math_api"},
+    "MessageAPI": {"name": "message_api", "path": "envs.tools.message_api"},
+    "TwitterAPI": {"name": "twitter_api", "path": "envs.tools.twitter_api"},
+    "TicketAPI": {"name": "ticket_api", "path": "envs.tools.ticket_api"},
+    "TradingBot": {"name": "trading_bot", "path": "envs.tools.trading_bot"},
+    "TravelAPI": {"name": "travel_api", "path": "envs.tools.travel_api"},
+    "VehicleControlAPI": {"name": "vehicle_control_api", "path": "envs.tools.vehicle_control_api"},
 }
 
 # These classes are stateless and do not require any initial configuration

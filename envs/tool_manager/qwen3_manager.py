@@ -362,7 +362,10 @@ class QwenManager(ToolManager):
 
         return parsed_tools
 
-    def filter_tools(self, involved_classes: list[str]) -> list:
+    def filter_tools(self, involved_classes: list[str] | None) -> list:
+        if involved_classes is None:
+            return self.functions
+        
         from envs import CLASS_FILE_PATH_MAPPING, STATELESS_CLASSES
         filtered_tools = []
 
@@ -373,31 +376,29 @@ class QwenManager(ToolManager):
                 if tool_name in tool['name']:
                     filtered_tools.append(tool)
 
-        # 2. Remove the load_scenario tools from
-        filtered_tools = [tool for tool in filtered_tools if 'load_scenario' not in tool['name']]
+        # 2. Remove the load_scenario and save_scenario tools from
+        filtered_tools = [tool for tool in filtered_tools if 'load_scenario' not in tool['name'] and 'save_scenario' not in tool['name']]
 
         return filtered_tools
-        
-    def load_scenario(self, tool_name: str, initial_config: dict) -> None:
-        
-        pass
 
     def get_prompt(self, input_data, tokenizer, mode='initial', add_generation_prompt=True):
         assert mode in ['initial', 'tool_call', 'assistant_response'], 'Invalid mode: {}'.format(mode)
+        involved_classes = input_data[0].get("involved_classes", None)
+        filtered_tools = self.filter_tools(involved_classes)
         base_chat = [
             {'role': SYSTEM, 'content': 'base'},
             {'role': USER, 'content': 'base'},
         ]
         base_prompt = tokenizer.apply_chat_template(
             conversation=base_chat,
-            tools=self.functions,
+            tools=filtered_tools,
             tokenize=False, add_generation_prompt=False
         )
 
         if mode == 'initial':
             chat = input_data
             prompt_with_chat_template = tokenizer.apply_chat_template(
-                conversation=chat, tokenize=False, tools=self.functions, 
+                conversation=chat, tokenize=False, tools=filtered_tools, 
                 add_generation_prompt=add_generation_prompt, enable_thinking=self.verl_config.enable_thinking
             )
         elif mode in ['tool_call', 'assistant_response']:
@@ -411,7 +412,7 @@ class QwenManager(ToolManager):
                 raise ValueError('Unexpected type of input_data {} ({})'.format(type(input_data), input_data))
             
             temp_prompt_with_chat_template = tokenizer.apply_chat_template(
-                conversation=base_chat + chat, tools=self.functions, 
+                conversation=base_chat + chat, tools=filtered_tools, 
                 tokenize=False, add_generation_prompt=add_generation_prompt, enable_thinking=self.verl_config.enable_thinking
             )
             prompt_with_chat_template = temp_prompt_with_chat_template.replace(base_prompt, '')

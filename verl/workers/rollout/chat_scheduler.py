@@ -431,7 +431,7 @@ class ChatCompletionScheduler:
                 system_prompt = system_prompt_with_chat_template.split("<|im_start|>system\n")[1].split("<|im_end|>")[0]
                 temp_conversation[0]["content"] = system_prompt
             elif temp_conversation[0]["role"] == USER:
-                base_chat = [{"role": SYSTEM, "content": ""}]
+                base_chat = [{"role": SYSTEM, "content": "", "involved_classes": temp_conversation[0]["involved_classes"]}]
                 system_prompt_with_chat_template = self.env_object.tool_manager.get_prompt(base_chat, self.completion_callback.tokenizer, mode='initial', add_generation_prompt=False)
                 system_prompt = system_prompt_with_chat_template.split("<|im_start|>system\n")[1].split("<|im_end|>")[0]
                 temp_conversation.insert(0, {"role": SYSTEM, "content": system_prompt})

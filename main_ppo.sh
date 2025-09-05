@@ -1,9 +1,9 @@
 set -e -x
 
-export MODEL_PATH='your/path/to/Qwen/Qwen3-4B'
-export REWARD_MODEL_PATH=/your/path/to/huggingface.co/Qwen/QwQ-32B
-export TRAIN_DATA='your/path/to/data/hotpot/train.parquet'
-export TEST_DATA='your/path/to/data/hotpot/test.parquet'
+export MODEL_PATH='Qwen/Qwen3-0.6B'
+export REWARD_MODEL_PATH='Qwen/Qwen3-0.6B'
+export TRAIN_DATA='/root/RL-Factory/data/nq_search/train_new.parquet'
+export TEST_DATA='/root/RL-Factory/data/nq_search/test_new.parquet'
 # export VLLM_ATTENTION_BACKEND=XFORMERS
 
 python3 -m verl.trainer.main_ppo --config-name=rl_factory_ppo_trainer \

@@ -16,6 +16,7 @@ TOOL_ENV_REGISTRY = {
 }
 
 CLASS_FILE_PATH_MAPPING = {
+    "SearchAPI": {"name": "search", "path": "envs.tools.search"}, 
     "GorillaFileSystem": {"name": "file_system", "path": "envs.tools.file_system"},
     "MathAPI": "",
     "MessageAPI": "",

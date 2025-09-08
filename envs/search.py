@@ -4,7 +4,6 @@ import string
 import random
 import torch
 from .base import Env
-from verl import DataProto
 
 class SearchEnv(Env):
     def __init__(self, config, centralized_actor=None):

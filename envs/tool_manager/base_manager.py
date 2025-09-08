@@ -21,6 +21,29 @@ class ToolManager(ABC):
     def build_storage_manager(self, verl_config):
         self.storage_manager = create_config_storage_manager(verl_config)
 
+    def _full_name_str(self, name):
+        if name in self.tool_map.keys():
+            return name
+        else:
+            for key in self.tool_map.keys():
+                # matching the 2nd half of the name
+                if "-" + name in key:
+                    return key
+            return name
+
+    def _full_name(self, name):
+        if isinstance(name, str):
+            return self._full_name_str(name)
+        if isinstance(name, dict):
+            # modify the "name"
+            name["name"] = self._full_name_str(name["name"])
+            return name
+    
+    def full_name(self, name):
+        if isinstance(name, list):
+            return [self._full_name(n) for n in name]
+        return self._full_name(name)
+
     def get_tool(self, name_or_short_name: str):
         """通过名称或简写获取工具
         

@@ -194,12 +194,12 @@ class QwenManager(ToolManager):
 {}""".format(tool["name"], args, str(e))
                 elif type(args) is str:
                     # Json decode error: xxx
-                    result = args
+                    result = 'parse json failed, argument is: {}'.format(args)
                 else:
                     result = 'Unexpected type of args: {} (args: {})'.format(type(args), args)
             else:
                 if tool['name'] == '<empty>':
-                    result = args
+                    result = 'toolname is empty, argument is: '.format(args)
                 else:
                     result = "# Failed to find the tool {} in the tool map".format(tool['name'])
 
@@ -225,6 +225,7 @@ class QwenManager(ToolManager):
         return results
 
     def _init_tool(self, tool: Union[str, BaseTool]):
+        print(f'tool: {tool}')
         if isinstance(tool, BaseTool):
             tool_name = tool.name
             self.tool_map[tool_name] = tool
@@ -243,6 +244,7 @@ class QwenManager(ToolManager):
             for tool in tools:
                 tool_name = tool.name
                 self.tool_map[tool_name] = tool
+                print(f'register tool: {tool_name} --> {tool}')
         else:
             if isinstance(tool, dict):
                 tool_name = tool['name']
@@ -270,6 +272,7 @@ class QwenManager(ToolManager):
             # if temp_action is 'answer', temp_tool_list is the answer
             # else, temp_tool_list is the list of the 'Tool' instances
             actions.append(temp_action)
+            temp_tool_list = self.full_name(temp_tool_list)
             tools.append(temp_tool_list)
 
         # 使用asyncio.run同步运行异步函数

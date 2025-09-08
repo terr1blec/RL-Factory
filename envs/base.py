@@ -37,13 +37,13 @@ class Env(ABC):
                 else:
                     tool_manager_name = model_type
                     raise ValueError(f"'{tool_manager_name}' 需要进行适配，请添加一个对应的tool_manager")
-            
+
             self.tool_manager = TOOL_MANAGER_REGISTRY[tool_manager_name](verl_config=config)
-        
+
         self.max_prompt_length = config.get('max_prompt_length', 2048)
         self.use_verify_tool = False
         self.use_process_reward = config.get('use_process_reward', False)
-        
+
     def verify_tool(self, data_source, solution_str, ground_truth, extra_info):
         # If you need a tool to evaluate the generated response, you need to modify the following code
         # the data would be stored in data[i].non_tensor_batch['reward_model']['ground_truth']['verified_results']
@@ -85,7 +85,7 @@ class Env(ABC):
     
         return step_reward
 
-    def step(self, responses, tokenizer):
+    def step(self, responses, tokenizer=None):
         cur_actions, tool_results = self.tool_manager.execute_actions(responses=responses)
         next_obs, dones, valid_action, is_tool = [], [], [], []
 
@@ -93,20 +93,26 @@ class Env(ABC):
             if action == 'answer':
                 temp_next_obs, temp_done, temp_valid_action, temp_is_tool = '', True, 1, 0
             elif action == 'error':
-                temp_next_obs = self.tool_manager.get_prompt(
-                    input_data=tool_result, 
-                    tokenizer=tokenizer,
-                    mode='tool_call', 
-                    add_generation_prompt=True
-                )
+                if tokenizer:
+                    temp_next_obs = self.tool_manager.get_prompt(
+                        input_data=tool_result, 
+                        tokenizer=tokenizer,
+                        mode='tool_call', 
+                        add_generation_prompt=True
+                    )
+                else:
+                    temp_next_obs = tool_result
                 temp_done, temp_valid_action, temp_is_tool = False, 0, 0
             elif action == 'actions':
-                temp_next_obs = self.tool_manager.get_prompt(
-                    input_data=tool_result, 
-                    tokenizer=tokenizer,
-                    mode='tool_call',
-                    add_generation_prompt=True
-                )
+                if tokenizer:
+                    temp_next_obs = self.tool_manager.get_prompt(
+                        input_data=tool_result, 
+                        tokenizer=tokenizer,
+                        mode='tool_call',
+                        add_generation_prompt=True
+                    )
+                else:
+                    temp_next_obs = tool_result
                 temp_done, temp_valid_action, temp_is_tool = False, 1, 1
             else:
                 raise ValueError('Unexpected action: {}'.format(action))

@@ -20,6 +20,19 @@ def load_scenario(scenario: dict, long_context: bool = False):
         return "Successfully loaded from scenario."
     except Exception as e:
         return f"Error: {str(e)}"
+        
+@mcp.tool()
+def save_scenario():
+    """
+    Exports the current scenario state of the vehicle.
+    Returns:
+        scenario (Dict): The current scenario state of the vehicle.
+    """
+    try:
+        scenario = vehicle_api.save_scenario()
+        return scenario
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 @mcp.tool()
 def startEngine(ignitionMode: str):

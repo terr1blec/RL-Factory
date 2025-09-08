@@ -12,10 +12,6 @@
             'command': 'python3',
             'args': ['envs/tools/posting.py']
         },
-        'rotate': {
-            'command': 'python3',
-            'args': ['envs/tools/rotate.py']
-        },
         'ticket': {
             'command': 'python3',
             'args': ['envs/tools/ticket.py']
@@ -31,6 +27,10 @@
         'vehicle': {
             'command': 'python3',
             'args': ['envs/tools/vehicle.py']
+        },
+        'message': {
+            'command': 'python3',
+            'args': ['envs/tools/message.py']
         }
     }
     }

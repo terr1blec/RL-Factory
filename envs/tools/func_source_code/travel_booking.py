@@ -75,6 +75,31 @@ class TravelAPI:
             self._add_credit_cards()  # Add credit card extension for long context
             self._add_booking_records()  # Add booking record extension
 
+    def save_scenario(self) -> Dict[str, Union[Dict, str]]:
+        """
+        保存当前 TravelAPI 状态到字典
+        
+        Returns:
+            scenario (Dict): 包含 TravelAPI 当前状态的字典
+        """
+        try:
+            scenario = {
+                "credit_card_list": self.credit_card_list,
+                "booking_record": self.booking_record,
+                "access_token": self.access_token,
+                "token_type": self.token_type,
+                "token_expires_in": self.token_expires_in,
+                "token_scope": self.token_scope,
+                "user_first_name": self.user_first_name,
+                "user_last_name": self.user_last_name,
+                "budget_limit": self.budget_limit,
+                "random_seed": self._random.getstate()[1][0] if hasattr(self, '_random') else 141053
+            }
+            return {"scenario": scenario, "message": "Scenario saved successfully."}
+        except Exception as e:
+            return {"error": f"Failed to save scenario: {str(e)}"}
+        
+
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, TravelAPI):
             return False

@@ -86,6 +86,7 @@ class MessageAPI:
         )
         self.current_user = scenario.get("current_user", DEFAULT_STATE_COPY["current_user"])
 
+
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, MessageAPI):
             return False

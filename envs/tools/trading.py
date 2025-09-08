@@ -155,6 +155,23 @@ def place_order(order_type: str, symbol: str, price: float, amount: int):
         return f"Order placed successfully!\nOrder ID: {result.get('order_id')}\nType: {result.get('order_type')}\nStatus: {result.get('status')}\nPrice: ${result.get('price')}\nAmount: {result.get('amount')}"
     except Exception as e:
         return f"Error: {str(e)}"
+        
+@mcp.tool()
+def save_scenario():
+    """
+    Save current scenario from the TradingBot instance.
+    
+    Returns:
+        scenario (dict): The current scenario state as a dictionary.
+    """
+    try:
+        result = trading_bot.save_scenario()
+        if "error" in result:
+            return f"Error: {result['error']}"
+        return result.get("scenario", {})
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 
 @mcp.tool()
 def make_transaction(account_id: int, xact_type: str, amount: float):

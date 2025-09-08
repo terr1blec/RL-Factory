@@ -22,6 +22,18 @@ def load_scenario(scenario: dict, long_context: bool = False):
         return f"Error: {str(e)}"
 
 @mcp.tool()
+def save_scenario():
+    """
+    Save current scenario from the ticket queue.
+    """
+    try:
+        result = ticket_api.save_scenario()
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+@mcp.tool()
 def create_ticket(title: str, description: str = "", priority: int = 1):
     """
     Create a ticket in the system and queue it.

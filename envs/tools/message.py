@@ -1,6 +1,7 @@
 from typing import Optional, Dict, List
 from mcp.server.fastmcp import FastMCP
 from envs.tools.func_source_code.message_api import MessageAPI
+import random
 
 mcp = FastMCP("Message")
 
@@ -22,6 +23,29 @@ def load_scenario(scenario: dict, long_context: bool = False):
         return f"Error: {str(e)}"
 
 @mcp.tool()
+def save_scenario():
+    """
+    Save the current scenario to the database.
+
+    Returns:
+        scenario (dict): The current scenario state as a dictionary.
+        message (str): A message describing the result of the save operation.
+    """
+    try:
+        scenario = {
+            "generated_ids": list(message_api.generated_ids),  # Convert set to list for JSON serialization
+            "user_count": message_api.user_count,
+            "user_map": message_api.user_map,
+            "inbox": message_api.inbox,
+            "message_count": message_api.message_count,
+            "current_user": message_api.current_user,
+        }
+        return scenario
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+@mcp.tool()
 def list_users():
     """
     List all users in the workspace.
@@ -31,8 +55,7 @@ def list_users():
     """
     try:
         result = message_api.list_users()
-        users = result.get('user_list', [])
-        return f"User list: {', '.join(users)}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -49,9 +72,7 @@ def get_user_id(user: str):
     """
     try:
         result = message_api.get_user_id(user)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"User {user} ID: {result['user_id']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -69,10 +90,7 @@ def message_login(user_id: str):
     """
     try:
         result = message_api.message_login(user_id)
-        if result.get('login_status'):
-            return f"Login successful: {result.get('message')}"
-        else:
-            return f"Login failed: {result.get('message')}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -86,8 +104,7 @@ def message_get_login_status():
     """
     try:
         result = message_api.message_get_login_status()
-        status = result.get('login_status', False)
-        return f"Login status: {'Logged in' if status else 'Not logged in'}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -107,9 +124,7 @@ def send_message(receiver_id: str, message: str):
     """
     try:
         result = message_api.send_message(receiver_id, message)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Message sent successfully. Message ID: {result.get('message_id')}, Status: {result.get('message')}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -128,9 +143,7 @@ def delete_message(receiver_id: str):
     """
     try:
         result = message_api.delete_message(receiver_id)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Message deleted successfully. Message ID: {result.get('message_id')}, Status: {result.get('message')}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -144,18 +157,9 @@ def view_messages_sent():
     """
     try:
         result = message_api.view_messages_sent()
-        if "error" in result:
-            return f"Error: {result['error']}"
+        return result
         
-        messages = result.get('messages', {})
-        if not messages:
-            return "No messages sent."
-        
-        formatted_messages = []
-        for receiver, msg_list in messages.items():
-            formatted_messages.append(f"To {receiver}: {msg_list}")
-        
-        return "Sent messages:\n" + "\n".join(formatted_messages)
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -174,9 +178,7 @@ def add_contact(user_name: str):
     """
     try:
         result = message_api.add_contact(user_name)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Contact added successfully. Username: {user_name}, User ID: {result.get('user_id')}, Status: {result.get('message')}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -193,18 +195,7 @@ def search_messages(keyword: str):
     """
     try:
         result = message_api.search_messages(keyword)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        
-        results = result.get('results', [])
-        if not results:
-            return f"No messages found containing keyword '{keyword}'."
-        
-        formatted_results = []
-        for msg in results:
-            formatted_results.append(f"Receiver ID: {msg.get('receiver_id')}, Message: {msg.get('message')}")
-        
-        return f"Found {len(results)} messages containing keyword '{keyword}':\n" + "\n".join(formatted_results)
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -218,11 +209,7 @@ def get_message_stats():
     """
     try:
         result = message_api.get_message_stats()
-        if "error" in result:
-            return f"Error: {result['error']}"
-        
-        stats = result.get('stats', {})
-        return f"Message statistics:\nReceived messages: {stats.get('received_count', 0)}\nTotal contacts: {stats.get('total_contacts', 0)}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 

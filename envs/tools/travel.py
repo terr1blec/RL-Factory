@@ -20,6 +20,22 @@ def load_scenario(scenario: dict, long_context: bool = False):
         return "Successfully loaded from scenario."
     except Exception as e:
         return f"Error: {str(e)}"
+        
+@mcp.tool()
+def save_scenario():
+    """
+    保存当前 TravelAPI 的场景状态
+    
+    Returns:
+        scenario (dict): 当前场景状态的字典
+    """
+    try:
+        result = travel_api.save_scenario()
+        if "error" in result:
+            return f"Error: {result['error']}"
+        return result.get("scenario", {})
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 @mcp.tool()
 def authenticate_travel(client_id: str, client_secret: str, refresh_token: str, grant_type: str, user_first_name: str, user_last_name: str):

@@ -38,9 +38,7 @@ def mean(numbers: List[float]):
     """
     try:
         result = math_api.mean(numbers)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Mean: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -57,9 +55,7 @@ def standard_deviation(numbers: List[float]):
     """
     try:
         result = math_api.standard_deviation(numbers)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Standard deviation: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -78,9 +74,7 @@ def si_unit_conversion(value: float, unit_in: str, unit_out: str):
     """
     try:
         result = math_api.si_unit_conversion(value, unit_in, unit_out)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Conversion result: {result['result']} {unit_out}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -99,9 +93,7 @@ def imperial_si_conversion(value: float, unit_in: str, unit_out: str):
     """
     try:
         result = math_api.imperial_si_conversion(value, unit_in, unit_out)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Conversion result: {result['result']} {unit_out}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -119,9 +111,7 @@ def add(a: float, b: float):
     """
     try:
         result = math_api.add(a, b)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -139,9 +129,7 @@ def subtract(a: float, b: float):
     """
     try:
         result = math_api.subtract(a, b)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -159,9 +147,7 @@ def multiply(a: float, b: float):
     """
     try:
         result = math_api.multiply(a, b)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -179,9 +165,7 @@ def divide(a: float, b: float):
     """
     try:
         result = math_api.divide(a, b)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -199,9 +183,7 @@ def power(base: float, exponent: float):
     """
     try:
         result = math_api.power(base, exponent)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -219,9 +201,7 @@ def square_root(number: float, precision: int):
     """
     try:
         result = math_api.square_root(number, precision)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Square root: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -238,9 +218,7 @@ def absolute_value(number: float):
     """
     try:
         result = math_api.absolute_value(number)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Absolute value: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -258,9 +236,7 @@ def round_number(number: float, decimal_places: int = 0):
     """
     try:
         result = math_api.round_number(number, decimal_places)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Rounded result: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -278,9 +254,7 @@ def percentage(part: float, whole: float):
     """
     try:
         result = math_api.percentage(part, whole)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Percentage: {result['result']}%"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -297,9 +271,7 @@ def min_value(numbers: List[float]):
     """
     try:
         result = math_api.min_value(numbers)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Minimum value: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -316,9 +288,7 @@ def max_value(numbers: List[float]):
     """
     try:
         result = math_api.max_value(numbers)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Maximum value: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -335,9 +305,7 @@ def sum_values(numbers: List[float]):
     """
     try:
         result = math_api.sum_values(numbers)
-        if "error" in result:
-            return f"Error: {result['error']}"
-        return f"Sum: {result['result']}"
+        return result
     except Exception as e:
         return f"Error: {str(e)}"
 

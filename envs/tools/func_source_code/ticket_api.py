@@ -46,6 +46,12 @@ class TicketAPI:
         )
         self.current_user = scenario.get("current_user", DEFAULT_STATE_COPY["current_user"])
 
+    def save_scenario(self) -> Dict[str, Union[Dict[str, Union[int, str]], str]]:
+        """
+        Save current scenario from the ticket queue.
+        """
+        return {"scenario": {"ticket_queue": self.ticket_queue, "ticket_counter": self.ticket_counter, "current_user": self.current_user}}
+
     def create_ticket(
         self, title: str, description: str = "", priority: int = 1
     ) -> Dict[str, Union[int, str]]:

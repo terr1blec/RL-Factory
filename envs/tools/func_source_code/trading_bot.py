@@ -190,6 +190,29 @@ class TradingBot:
             (scenario.get("random_seed", DEFAULT_STATE_COPY["random_seed"]))
         )
 
+    def save_scenario(self) -> Dict[str, Union[Dict, str]]:
+        """
+        Save the current TradingBot state to a dictionary.
+        
+        Returns:
+            scenario (Dict): A dictionary containing the current state of the TradingBot.
+        """
+        try:
+            scenario = {
+                "orders": self.orders,
+                "account_info": self.account_info,
+                "authenticated": self.authenticated,
+                "market_status": self.market_status,
+                "order_counter": self.order_counter,
+                "stocks": self.stocks,
+                "watch_list": self.watch_list,
+                "transaction_history": self.transaction_history,
+                "random_seed": self.random_seed if hasattr(self, 'random_seed') else 1053520
+            }
+            return {"scenario": scenario, "message": "Scenario saved successfully."}
+        except Exception as e:
+            return {"error": f"Failed to save scenario: {str(e)}"}
+
     def _generate_transaction_timestamp(self) -> str:
         """
         Generate a timestamp for a transaction.

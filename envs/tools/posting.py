@@ -22,6 +22,19 @@ def load_scenario(scenario: dict, long_context: bool = False):
         return f"Error: {str(e)}"
 
 @mcp.tool()
+def save_scenario():
+    """
+    Save current scenario from the TwitterAPI instance.
+    """
+    try:
+        result = twitter_api.save_scenario()
+        if "error" in result:
+            return f"Error: {result['error']}"
+        return result.get("scenario", {})
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+@mcp.tool()
 def authenticate_twitter(username: str, password: str):
     """
     Authenticate a user with username and password.

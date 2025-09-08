@@ -2,7 +2,7 @@ import random
 from copy import deepcopy
 from typing import Dict, List, Union
 
-from bfcl_eval.eval_checker.multi_turn_eval.func_source_code.long_context import (
+from envs.tools.func_source_code.long_context import (
     CAR_STATUS_METADATA_EXTENSION,
     INTERMEDIARY_CITIES,
     LONG_WEATHER_EXTENSION,
@@ -157,6 +157,39 @@ class VehicleControlAPI:
 
         self.long_context = long_context
 
+    def save_scenario(self) -> Dict[str, Union[str, float, Dict]]:
+        """
+        Exports the current scenario state of the vehicle.
+        Returns:
+            scenario (Dict): The current scenario state of the vehicle.
+        """
+        scenario = {
+            "random_seed": self._random.getstate()[1][0] if hasattr(self, '_random') else 141053,
+            "fuelLevel": self.fuelLevel,
+            "batteryVoltage": self.batteryVoltage,
+            "engine_state": self.engine_state,
+            "remainingUnlockedDoors": self.remainingUnlockedDoors,
+            "doorStatus": self.doorStatus,
+            "acTemperature": self.acTemperature,
+            "fanSpeed": self.fanSpeed,
+            "acMode": self.acMode,
+            "humidityLevel": self.humidityLevel,
+            "headLightStatus": self.headLightStatus,
+            "parkingBrakeStatus": self.parkingBrakeStatus,
+            "_parkingBrakeForce": self._parkingBrakeForce,
+            "_slopeAngle": self._slopeAngle,
+            "brakePedalStatus": self.brakePedalStatus,
+            "brakePedalForce": self._brakePedalForce,
+            "distanceToNextVehicle": self.distanceToNextVehicle,
+            "cruiseStatus": self.cruiseStatus,
+            "destination": self.destination,
+            "frontLeftTirePressure": self.frontLeftTirePressure,
+            "frontRightTirePressure": self.frontRightTirePressure,
+            "rearLeftTirePressure": self.rearLeftTirePressure,
+            "rearRightTirePressure": self.rearRightTirePressure,
+        }   
+        return scenario
+    
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, VehicleControlAPI):
             return False
@@ -701,3 +734,36 @@ class VehicleControlAPI:
             shopLocation (str): The location of the nearest tire shop.
         """
         return {"shopLocation": "456 Oakwood Avenue, Rivermist, 83214"}
+
+    def save_scenario(self) -> Dict[str, Union[str, float, Dict]]:
+        """
+        Exports the current scenario state of the vehicle.
+        Returns:
+            scenario (Dict): The current scenario state of the vehicle.
+        """
+        scenario = {
+            "random_seed": getattr(self, "_random", None).seed if hasattr(self, "_random") else None,
+            "fuelLevel": self.fuelLevel,
+            "batteryVoltage": self.batteryVoltage,
+            "engine_state": self.engine_state,
+            "remainingUnlockedDoors": self.remainingUnlockedDoors,
+            "doorStatus": self.doorStatus,
+            "acTemperature": self.acTemperature,
+            "fanSpeed": self.fanSpeed,
+            "acMode": self.acMode,
+            "humidityLevel": self.humidityLevel,
+            "headLightStatus": self.headLightStatus,
+            "parkingBrakeStatus": self.parkingBrakeStatus,
+            "_parkingBrakeForce": self._parkingBrakeForce,
+            "_slopeAngle": self._slopeAngle,
+            "brakePedalStatus": self.brakePedalStatus,
+            "brakePedalForce": self._brakePedalForce,
+            "distanceToNextVehicle": self.distanceToNextVehicle,
+            "cruiseStatus": self.cruiseStatus,
+            "destination": self.destination,
+            "frontLeftTirePressure": self.frontLeftTirePressure,
+            "frontRightTirePressure": self.frontRightTirePressure,
+            "rearLeftTirePressure": self.rearLeftTirePressure,
+            "rearRightTirePressure": self.rearRightTirePressure,
+        }
+        return scenario

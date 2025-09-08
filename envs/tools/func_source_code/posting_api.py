@@ -12,7 +12,6 @@ DEFAULT_STATE = {
     "tweet_counter": 0,
 }
 
-
 class TwitterAPI:
     def __init__(self):
         self.username: str
@@ -48,6 +47,28 @@ class TwitterAPI:
         self.tweet_counter = scenario.get(
             "tweet_counter", DEFAULT_STATE_COPY["tweet_counter"]
         )
+
+    def save_scenario(self) -> Dict[str, Union[dict, str]]:
+        """
+        Save the current TwitterAPI state to a dictionary.
+
+        Returns:
+            scenario (Dict): A dictionary containing the current state of the TwitterAPI.
+        """
+        try:
+            scenario = {
+                "username": self.username,
+                "password": self.password,
+                "authenticated": self.authenticated,
+                "tweets": self.tweets,
+                "comments": self.comments,
+                "retweets": self.retweets,
+                "following_list": self.following_list,
+                "tweet_counter": self.tweet_counter,
+            }
+            return {"scenario": scenario, "message": "Scenario saved successfully."}
+        except Exception as e:
+            return {"error": f"Failed to save scenario: {str(e)}"}
 
     def authenticate_twitter(self, username: str, password: str) -> Dict[str, bool]:
         """

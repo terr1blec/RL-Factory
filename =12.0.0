@@ -1,0 +1,260 @@
+Looking in indexes: http://repo.myhuaweicloud.com/repository/pypi/simple
+Requirement already satisfied: einops in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (0.8.1)
+Collecting isort
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/c1/11/114d0a5f4dabbdcedc1125dee0888514c3c3b16d3e9facad87ed96fad97c/isort-6.0.1-py3-none-any.whl (94 kB)
+Collecting jsonlines
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/f8/62/d9ba6323b9202dd2fe166beab8a86d29465c41a0288cbe229fac60c1ab8d/jsonlines-4.0.0-py3-none-any.whl (8.7 kB)
+Collecting loralib
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/f1/e7/a4362bf791bca17d2d91e7c69483185ab03d5aa05dd10391eff2e179a685/loralib-0.1.2-py3-none-any.whl (10 kB)
+Collecting optimum
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/98/2d/4978f9b0ddb6a6af12ff71831f78f84e9dd488f401367290d11a92870b97/optimum-1.27.0-py3-none-any.whl (425 kB)
+Requirement already satisfied: packaging in /home/ma-user/modelarts-dev/modelarts-sdk (25.0)
+Collecting peft
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/49/fe/a2da1627aa9cb6310b6034598363bd26ac301c4a99d21f415b1b2855891e/peft-0.17.1-py3-none-any.whl (504 kB)
+Collecting pynvml
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/ed/df/f7cf07a65a96dd11d71f346f9c2863accdd4784da83af7181b067d556cbc/pynvml-12.0.0-py3-none-any.whl (26 kB)
+Collecting ray==2.46.0 (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/17/48/c1f24e22ea404e779550c506e421101005f70571caece30d0de7b0b91374/ray-2.46.0-cp310-cp310-manylinux2014_x86_64.whl (68.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.4/68.4 MB 152.5 MB/s eta 0:00:00
+Requirement already satisfied: tensorboard in /modelarts/tools/visualization/tensorboard (2.18.0)
+Collecting torch==2.6.0
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/37/81/aa9ab58ec10264c1abe62c8b73f5086c3c558885d6beecebf699f0dbeaeb/torch-2.6.0-cp310-cp310-manylinux1_x86_64.whl (766.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 766.7/766.7 MB 69.5 MB/s eta 0:00:00
+Collecting torchmetrics
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/8f/59/5c1c1cb08c494621901cf549a543f87143019fac1e6dd191eb4630bbc8fb/torchmetrics-1.8.1-py3-none-any.whl (982 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 983.0/983.0 kB 20.5 MB/s eta 0:00:00
+Requirement already satisfied: tqdm in /home/ma-user/modelarts-dev/modelarts-sdk (4.66.5)
+Collecting transformers==4.51.3
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/a9/b6/5257d04ae327b44db31f15cce39e6020cc986333c715660b1315a9724d82/transformers-4.51.3-py3-none-any.whl (10.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.4/10.4 MB 55.9 MB/s eta 0:00:00
+Collecting transformers_stream_generator
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/42/c2/65f13aec253100e1916e9bd7965fe17bde796ebabeb1265f45191ab4ddc0/transformers-stream-generator-0.0.5.tar.gz (13 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting wandb
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/0a/d5/c5a6d7280ca9097fd4dd6f17cc66906b85e55465fbb2a769818b25d79e2d/wandb-0.21.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (19.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 19.6/19.6 MB 92.0 MB/s eta 0:00:00
+Requirement already satisfied: wheel in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (0.45.1)
+Requirement already satisfied: click>=7.0 in /home/ma-user/modelarts-dev/ma-cli (from ray==2.46.0->ray[default]==2.46.0) (8.1.8)
+Requirement already satisfied: filelock in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from ray==2.46.0->ray[default]==2.46.0) (3.19.1)
+Collecting jsonschema (from ray==2.46.0->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/bf/9c/8c95d856233c1f82500c2450b8c68576b4cf1c871db3afac5c34ff84e6fd/jsonschema-4.25.1-py3-none-any.whl (90 kB)
+Requirement already satisfied: msgpack<2.0.0,>=1.0.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from ray==2.46.0->ray[default]==2.46.0) (1.1.1)
+Requirement already satisfied: protobuf!=3.19.5,>=3.15.3 in /modelarts/tools/visualization/tensorboard (from ray==2.46.0->ray[default]==2.46.0) (6.31.1)
+Requirement already satisfied: pyyaml in /home/ma-user/modelarts-dev/modelarts-sdk (from ray==2.46.0->ray[default]==2.46.0) (6.0.2)
+Requirement already satisfied: requests in /home/ma-user/modelarts-dev/modelarts-sdk (from ray==2.46.0->ray[default]==2.46.0) (2.32.3)
+Requirement already satisfied: typing-extensions>=4.10.0 in /modelarts/tools/solution/advisor (from torch==2.6.0) (4.14.1)
+Requirement already satisfied: networkx in /home/ma-user/modelarts-dev/modelarts-sdk (from torch==2.6.0) (3.2.1)
+Requirement already satisfied: jinja2 in /home/ma-user/modelarts-dev/ma-cli (from torch==2.6.0) (3.1.6)
+Requirement already satisfied: fsspec in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from torch==2.6.0) (2025.3.0)
+Collecting nvidia-cuda-nvrtc-cu12==12.4.127 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/2c/14/91ae57cd4db3f9ef7aa99f4019cfa8d54cb4caa7e00975df6467e9725a9f/nvidia_cuda_nvrtc_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (24.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.6/24.6 MB 196.4 MB/s eta 0:00:00
+Collecting nvidia-cuda-runtime-cu12==12.4.127 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/ea/27/1795d86fe88ef397885f2e580ac37628ed058a92ed2c39dc8eac3adf0619/nvidia_cuda_runtime_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (883 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 883.7/883.7 kB 45.2 MB/s eta 0:00:00
+Collecting nvidia-cuda-cupti-cu12==12.4.127 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/67/42/f4f60238e8194a3106d06a058d494b18e006c10bb2b915655bd9f6ea4cb1/nvidia_cuda_cupti_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (13.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.8/13.8 MB 78.6 MB/s eta 0:00:00
+Collecting nvidia-cudnn-cu12==9.1.0.70 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/9f/fd/713452cd72343f682b1c7b9321e23829f00b842ceaedcda96e742ea0b0b3/nvidia_cudnn_cu12-9.1.0.70-py3-none-manylinux2014_x86_64.whl (664.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 664.8/664.8 MB 77.4 MB/s eta 0:00:00
+Collecting nvidia-cublas-cu12==12.4.5.8 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/ae/71/1c91302526c45ab494c23f61c7a84aa568b8c1f9d196efa5993957faf906/nvidia_cublas_cu12-12.4.5.8-py3-none-manylinux2014_x86_64.whl (363.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 363.4/363.4 MB 55.3 MB/s eta 0:00:00
+Collecting nvidia-cufft-cu12==11.2.1.3 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/27/94/3266821f65b92b3138631e9c8e7fe1fb513804ac934485a8d05776e1dd43/nvidia_cufft_cu12-11.2.1.3-py3-none-manylinux2014_x86_64.whl (211.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 211.5/211.5 MB 180.3 MB/s eta 0:00:00
+Collecting nvidia-curand-cu12==10.3.5.147 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/8a/6d/44ad094874c6f1b9c654f8ed939590bdc408349f137f9b98a3a23ccec411/nvidia_curand_cu12-10.3.5.147-py3-none-manylinux2014_x86_64.whl (56.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 MB 260.1 MB/s eta 0:00:00
+Collecting nvidia-cusolver-cu12==11.6.1.9 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/3a/e1/5b9089a4b2a4790dfdea8b3a006052cfecff58139d5a4e34cb1a51df8d6f/nvidia_cusolver_cu12-11.6.1.9-py3-none-manylinux2014_x86_64.whl (127.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 127.9/127.9 MB 274.9 MB/s eta 0:00:00
+Collecting nvidia-cusparse-cu12==12.3.1.170 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/db/f7/97a9ea26ed4bbbfc2d470994b8b4f338ef663be97b8f677519ac195e113d/nvidia_cusparse_cu12-12.3.1.170-py3-none-manylinux2014_x86_64.whl (207.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 207.5/207.5 MB 174.7 MB/s eta 0:00:00
+Collecting nvidia-cusparselt-cu12==0.6.2 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/78/a8/bcbb63b53a4b1234feeafb65544ee55495e1bb37ec31b999b963cbccfd1d/nvidia_cusparselt_cu12-0.6.2-py3-none-manylinux2014_x86_64.whl (150.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 150.1/150.1 MB 179.5 MB/s eta 0:00:00
+Collecting nvidia-nccl-cu12==2.21.5 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/df/99/12cd266d6233f47d00daf3a72739872bdc10267d0383508b0b9c84a18bb6/nvidia_nccl_cu12-2.21.5-py3-none-manylinux2014_x86_64.whl (188.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 188.7/188.7 MB 199.3 MB/s eta 0:00:00
+Collecting nvidia-nvtx-cu12==12.4.127 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/87/20/199b8713428322a2f22b722c62b8cc278cc53dffa9705d744484b5035ee9/nvidia_nvtx_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (99 kB)
+Collecting nvidia-nvjitlink-cu12==12.4.127 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/ff/ff/847841bacfbefc97a00036e0fce5a0f086b640756dc38caea5e1bb002655/nvidia_nvjitlink_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (21.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 21.1/21.1 MB 174.1 MB/s eta 0:00:00
+Collecting triton==3.2.0 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/01/65/3ffa90e158a2c82f0716eee8d26a725d241549b7d7aaf7e4f44ac03ebd89/triton-3.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (253.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 253.1/253.1 MB 167.8 MB/s eta 0:00:00
+Collecting sympy==1.13.1 (from torch==2.6.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/b2/fe/81695a1aa331a842b582453b605175f419fe8540355886031328089d840a/sympy-1.13.1-py3-none-any.whl (6.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 41.8 MB/s eta 0:00:00
+Requirement already satisfied: huggingface-hub<1.0,>=0.30.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from transformers==4.51.3) (0.34.4)
+Requirement already satisfied: numpy>=1.17 in /home/ma-user/modelarts-dev/modelarts-sdk (from transformers==4.51.3) (1.26.4)
+Collecting regex!=2019.12.17 (from transformers==4.51.3)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/96/f0/4bcc714f251e991e13bcc462af25b85ec1f300eeface928f8b0d744be70e/regex-2025.8.29-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (789 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 789.9/789.9 kB 32.3 MB/s eta 0:00:00
+Collecting tokenizers<0.22,>=0.21 (from transformers==4.51.3)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/f2/90/273b6c7ec78af547694eddeea9e05de771278bd20476525ab930cecaf7d8/tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 34.9 MB/s eta 0:00:00
+Requirement already satisfied: safetensors>=0.4.3 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from transformers==4.51.3) (0.6.2)
+Requirement already satisfied: aiohttp>=3.7 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from ray[default]==2.46.0) (3.12.15)
+Collecting aiohttp_cors (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/98/3b/40a68de458904bcc143622015fff2352b6461cd92fd66d3527bf1c6f5716/aiohttp_cors-0.8.1-py3-none-any.whl (25 kB)
+Collecting colorful (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/e2/98/0d791b3d1eaed89d7d370b5cf9b8079b124da0545559417f394ba21b5532/colorful-0.5.7-py2.py3-none-any.whl (201 kB)
+Collecting py-spy>=0.2.0 (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/68/fb/bc7f639aed026bca6e7beb1e33f6951e16b7d315594e7635a4f7d21d63f4/py_spy-0.4.1-py2.py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl (2.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.8/2.8 MB 30.6 MB/s eta 0:00:00
+Requirement already satisfied: grpcio>=1.42.0 in /modelarts/tools/visualization/tensorboard (from ray[default]==2.46.0) (1.74.0)
+Collecting opencensus (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/b5/ed/9fbdeb23a09e430d87b7d72d430484b88184633dc50f6bfb792354b6f661/opencensus-0.11.4-py2.py3-none-any.whl (128 kB)
+Requirement already satisfied: pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from ray[default]==2.46.0) (2.11.7)
+Collecting prometheus_client>=0.7.1 (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/32/ae/ec06af4fe3ee72d16973474f122541746196aaa16cea6f66d18b963c6177/prometheus_client-0.22.1-py3-none-any.whl (58 kB)
+Collecting smart_open (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/08/5b/a2a3d4514c64818925f4e886d39981f1926eeb5288a4549c6b3c17ed66bb/smart_open-7.3.0.post1-py3-none-any.whl (61 kB)
+Collecting virtualenv!=20.21.1,>=20.0.24 (from ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/76/06/04c8e804f813cf972e3262f3f8584c232de64f0cde9f703b46cf53a45090/virtualenv-20.34.0-py3-none-any.whl (6.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.0/6.0 MB 117.4 MB/s eta 0:00:00
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from sympy==1.13.1->torch==2.6.0) (1.3.0)
+Requirement already satisfied: hf-xet<2.0.0,>=1.1.3 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from huggingface-hub<1.0,>=0.30.0->transformers==4.51.3) (1.1.9)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3->ray[default]==2.46.0) (0.7.0)
+Requirement already satisfied: pydantic-core==2.33.2 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3->ray[default]==2.46.0) (2.33.2)
+Requirement already satisfied: typing-inspection>=0.4.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3->ray[default]==2.46.0) (0.4.1)
+Requirement already satisfied: attrs>=19.2.0 in /home/ma-user/modelarts-dev/modelarts-sdk (from jsonlines) (23.2.0)
+Requirement already satisfied: psutil in /home/ma-user/modelarts-dev/modelarts-sdk (from peft) (5.9.5)
+Requirement already satisfied: accelerate>=0.21.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from peft) (1.10.1)
+Collecting nvidia-ml-py<13.0.0a0,>=12.0.0 (from pynvml)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/db/24/552ebea28f0570b9e65e62b50287a273804c9f997cc1c2dcd4e2d64b9e7d/nvidia_ml_py-12.575.51-py3-none-any.whl (47 kB)
+Requirement already satisfied: absl-py>=0.4 in /modelarts/tools/visualization/tensorboard (from tensorboard) (2.3.1)
+Requirement already satisfied: markdown>=2.6.8 in /modelarts/tools/visualization/tensorboard (from tensorboard) (3.8.2)
+Requirement already satisfied: setuptools>=41.0.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from tensorboard) (78.1.1)
+Requirement already satisfied: six>1.9 in /home/ma-user/modelarts-dev/modelarts-sdk (from tensorboard) (1.17.0)
+Requirement already satisfied: tensorboard-data-server<0.8.0,>=0.7.0 in /modelarts/tools/visualization/tensorboard (from tensorboard) (0.7.2)
+Requirement already satisfied: werkzeug>=1.0.1 in /modelarts/tools/visualization/tensorboard (from tensorboard) (3.1.3)
+Collecting lightning-utilities>=0.8.0 (from torchmetrics)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/de/73/3d757cb3fc16f0f9794dd289bcd0c4a031d9cf54d8137d6b984b2d02edf3/lightning_utilities-0.15.2-py3-none-any.whl (29 kB)
+Collecting gitpython!=3.1.29,>=1.0.0 (from wandb)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/01/61/d4b89fec821f72385526e1b9d9a3a0385dda4a72b206d28049e2c7cd39b8/gitpython-3.1.45-py3-none-any.whl (208 kB)
+Collecting platformdirs (from wandb)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/40/4b/2028861e724d3bd36227adfa20d3fd24c3fc6d52032f4a93c133be5d17ce/platformdirs-4.4.0-py3-none-any.whl (18 kB)
+Collecting sentry-sdk>=2.0.0 (from wandb)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/62/1f/5feb6c42cc30126e9574eabc28139f8c626b483a47c537f648d133628df0/sentry_sdk-2.35.1-py2.py3-none-any.whl (363 kB)
+Requirement already satisfied: charset-normalizer<4,>=2 in /home/ma-user/modelarts-dev/modelarts-sdk (from requests->ray==2.46.0->ray[default]==2.46.0) (3.4.2)
+Requirement already satisfied: idna<4,>=2.5 in /home/ma-user/modelarts-dev/modelarts-sdk (from requests->ray==2.46.0->ray[default]==2.46.0) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /home/ma-user/modelarts-dev/modelarts-sdk (from requests->ray==2.46.0->ray[default]==2.46.0) (1.26.20)
+Requirement already satisfied: certifi>=2017.4.17 in /home/ma-user/modelarts-dev/modelarts-sdk (from requests->ray==2.46.0->ray[default]==2.46.0) (2025.7.14)
+Requirement already satisfied: aiohappyeyeballs>=2.5.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (2.6.1)
+Requirement already satisfied: aiosignal>=1.4.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (1.4.0)
+Requirement already satisfied: async-timeout<6.0,>=4.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (5.0.1)
+Requirement already satisfied: frozenlist>=1.1.1 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (1.7.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (6.6.4)
+Requirement already satisfied: propcache>=0.2.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (0.3.2)
+Requirement already satisfied: yarl<2.0,>=1.17.0 in /home/ma-user/anaconda3/envs/rl/lib/python3.10/site-packages (from aiohttp>=3.7->ray[default]==2.46.0) (1.20.1)
+Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/a0/61/5c78b91c3143ed5c14207f463aecfc8f9dbb5092fb2869baf37c273b2705/gitdb-4.0.12-py3-none-any.whl (62 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/04/be/d09147ad1ec7934636ad912901c5fd7667e1c858e19d355237db0d0cd5e4/smmap-5.0.2-py3-none-any.whl (24 kB)
+Collecting distlib<1,>=0.3.7 (from virtualenv!=20.21.1,>=20.0.24->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/33/6b/e0547afaf41bf2c42e52430072fa5658766e3d65bd4b03a563d1b6336f57/distlib-0.4.0-py2.py3-none-any.whl (469 kB)
+Requirement already satisfied: MarkupSafe>=2.1.1 in /home/ma-user/modelarts-dev/ma-cli (from werkzeug>=1.0.1->tensorboard) (3.0.2)
+Collecting jsonschema-specifications>=2023.03.6 (from jsonschema->ray==2.46.0->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/01/0e/b27cdbaccf30b890c40ed1da9fd4a3593a5cf94dae54fb34f8a4b74fcd3f/jsonschema_specifications-2025.4.1-py3-none-any.whl (18 kB)
+Collecting referencing>=0.28.4 (from jsonschema->ray==2.46.0->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/c1/b1/3baf80dc6d2b7bc27a95a67752d0208e410351e3feb4eb78de5f77454d8d/referencing-0.36.2-py3-none-any.whl (26 kB)
+Collecting rpds-py>=0.7.1 (from jsonschema->ray==2.46.0->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/0a/ec/ef8bf895f0628dd0a59e54d81caed6891663cb9c54a0f4bb7da918cb88cf/rpds_py-0.27.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (384 kB)
+Collecting opencensus-context>=0.1.3 (from opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/10/68/162c97ea78c957d68ecf78a5c5041d2e25bd5562bdf5d89a6cbf7f8429bf/opencensus_context-0.1.3-py2.py3-none-any.whl (5.1 kB)
+Collecting google-api-core<3.0.0,>=1.0.0 (from opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/14/4b/ead00905132820b623732b175d66354e9d3e69fcf2a5dcdab780664e7896/google_api_core-2.25.1-py3-none-any.whl (160 kB)
+Collecting googleapis-common-protos<2.0.0,>=1.56.2 (from google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/86/f1/62a193f0227cf15a920390abe675f386dec35f7ae3ffe6da582d3ade42c7/googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
+Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/4e/6d/280c4c2ce28b1593a19ad5239c8b826871fc6ec275c21afc8e1820108039/proto_plus-1.26.1-py3-none-any.whl (50 kB)
+Collecting google-auth<3.0.0,>=2.14.1 (from google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/17/63/b19553b658a1692443c62bd07e5868adaa0ad746a0751ba62c59568cd45b/google_auth-2.40.3-py2.py3-none-any.whl (216 kB)
+Collecting cachetools<6.0,>=2.0.0 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/72/76/20fa66124dbe6be5cafeb312ece67de6b61dd91a0247d1ea13db4ebb33c2/cachetools-5.5.2-py3-none-any.whl (10 kB)
+Collecting pyasn1-modules>=0.2.1 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/47/8d/d529b5d697919ba8c11ad626e835d4039be708a35b0d22de83a269a6682c/pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+Collecting rsa<5,>=3.1.4 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/64/8d/0133e4eb4beed9e425d9a98ed6e081a55d195481b7632472be1af08d2f6b/rsa-4.9.1-py3-none-any.whl (34 kB)
+Collecting pyasn1>=0.1.3 (from rsa<5,>=3.1.4->google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0,>=1.0.0->opencensus->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/c8/f1/d6a797abb14f6283c0ddff96bbdd46937f64122b8c925cab503dd37f8214/pyasn1-0.6.1-py3-none-any.whl (83 kB)
+Collecting wrapt (from smart_open->ray[default]==2.46.0)
+  Downloading http://repo.myhuaweicloud.com/repository/pypi/packages/de/17/9f8f86755c191d6779d7ddead1a53c7a8aa18bccb7cea8e7e72dfa6a8a09/wrapt-1.17.3-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (81 kB)
+Building wheels for collected packages: transformers_stream_generator
+  Building wheel for transformers_stream_generator (setup.py): started
+  Building wheel for transformers_stream_generator (setup.py): finished with status 'done'
+  Created wheel for transformers_stream_generator: filename=transformers_stream_generator-0.0.5-py3-none-any.whl size=12527 sha256=a41d54c973e9562e62b4708e09b5d3bdcd0a48fa52b283a5beeca2bbaf6d6659
+  Stored in directory: /home/ma-user/.cache/pip/wheels/c4/af/94/afd71d56133d24ca5e79739c3f928469fbef9e84dfda7cf1ea
+Successfully built transformers_stream_generator
+Installing collected packages: triton, py-spy, opencensus-context, nvidia-ml-py, nvidia-cusparselt-cu12, distlib, colorful, wrapt, sympy, smmap, sentry-sdk, rpds-py, regex, pynvml, pyasn1, proto-plus, prometheus_client, platformdirs, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufft-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, loralib, lightning-utilities, jsonlines, isort, googleapis-common-protos, cachetools, virtualenv, smart_open, rsa, referencing, pyasn1-modules, nvidia-cusparse-cu12, nvidia-cudnn-cu12, gitdb, tokenizers, nvidia-cusolver-cu12, jsonschema-specifications, google-auth, gitpython, wandb, transformers, torch, jsonschema, google-api-core, aiohttp_cors, transformers_stream_generator, torchmetrics, ray, optimum, opencensus, peft
+  Attempting uninstall: triton
+    Found existing installation: triton 3.4.0
+    Uninstalling triton-3.4.0:
+      Successfully uninstalled triton-3.4.0
+  Attempting uninstall: nvidia-cusparselt-cu12
+    Found existing installation: nvidia-cusparselt-cu12 0.7.1
+    Uninstalling nvidia-cusparselt-cu12-0.7.1:
+      Successfully uninstalled nvidia-cusparselt-cu12-0.7.1
+  Attempting uninstall: sympy
+    Found existing installation: sympy 1.14.0
+    Uninstalling sympy-1.14.0:
+      Successfully uninstalled sympy-1.14.0
+  Attempting uninstall: nvidia-nvtx-cu12
+    Found existing installation: nvidia-nvtx-cu12 12.8.90
+    Uninstalling nvidia-nvtx-cu12-12.8.90:
+      Successfully uninstalled nvidia-nvtx-cu12-12.8.90
+  Attempting uninstall: nvidia-nvjitlink-cu12
+    Found existing installation: nvidia-nvjitlink-cu12 12.8.93
+    Uninstalling nvidia-nvjitlink-cu12-12.8.93:
+      Successfully uninstalled nvidia-nvjitlink-cu12-12.8.93
+  Attempting uninstall: nvidia-nccl-cu12
+    Found existing installation: nvidia-nccl-cu12 2.27.3
+    Uninstalling nvidia-nccl-cu12-2.27.3:
+      Successfully uninstalled nvidia-nccl-cu12-2.27.3
+  Attempting uninstall: nvidia-curand-cu12
+    Found existing installation: nvidia-curand-cu12 10.3.9.90
+    Uninstalling nvidia-curand-cu12-10.3.9.90:
+      Successfully uninstalled nvidia-curand-cu12-10.3.9.90
+  Attempting uninstall: nvidia-cufft-cu12
+    Found existing installation: nvidia-cufft-cu12 11.3.3.83
+    Uninstalling nvidia-cufft-cu12-11.3.3.83:
+      Successfully uninstalled nvidia-cufft-cu12-11.3.3.83
+  Attempting uninstall: nvidia-cuda-runtime-cu12
+    Found existing installation: nvidia-cuda-runtime-cu12 12.8.90
+    Uninstalling nvidia-cuda-runtime-cu12-12.8.90:
+      Successfully uninstalled nvidia-cuda-runtime-cu12-12.8.90
+  Attempting uninstall: nvidia-cuda-nvrtc-cu12
+    Found existing installation: nvidia-cuda-nvrtc-cu12 12.8.93
+    Uninstalling nvidia-cuda-nvrtc-cu12-12.8.93:
+      Successfully uninstalled nvidia-cuda-nvrtc-cu12-12.8.93
+  Attempting uninstall: nvidia-cuda-cupti-cu12
+    Found existing installation: nvidia-cuda-cupti-cu12 12.8.90
+    Uninstalling nvidia-cuda-cupti-cu12-12.8.90:
+      Successfully uninstalled nvidia-cuda-cupti-cu12-12.8.90
+  Attempting uninstall: nvidia-cublas-cu12
+    Found existing installation: nvidia-cublas-cu12 12.8.4.1
+    Uninstalling nvidia-cublas-cu12-12.8.4.1:
+      Successfully uninstalled nvidia-cublas-cu12-12.8.4.1
+  Attempting uninstall: nvidia-cusparse-cu12
+    Found existing installation: nvidia-cusparse-cu12 12.5.8.93
+    Uninstalling nvidia-cusparse-cu12-12.5.8.93:
+      Successfully uninstalled nvidia-cusparse-cu12-12.5.8.93
+  Attempting uninstall: nvidia-cudnn-cu12
+    Found existing installation: nvidia-cudnn-cu12 9.10.2.21
+    Uninstalling nvidia-cudnn-cu12-9.10.2.21:
+      Successfully uninstalled nvidia-cudnn-cu12-9.10.2.21
+  Attempting uninstall: nvidia-cusolver-cu12
+    Found existing installation: nvidia-cusolver-cu12 11.7.3.90
+    Uninstalling nvidia-cusolver-cu12-11.7.3.90:
+      Successfully uninstalled nvidia-cusolver-cu12-11.7.3.90
+  Attempting uninstall: torch
+    Found existing installation: torch 2.8.0
+    Uninstalling torch-2.8.0:
+      Successfully uninstalled torch-2.8.0

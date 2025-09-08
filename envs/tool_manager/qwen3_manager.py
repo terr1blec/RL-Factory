@@ -399,11 +399,13 @@ class QwenManager(ToolManager):
 
         return parsed_tools
 
+
     def filter_tools(self, involved_class: list[str] | None) -> list:
         if involved_class is None:
             return self.functions
         
         from envs import CLASS_NAME_MAPPING
+
         filtered_tools = []
 
         # 1. Only keep the tools related to the involved classes

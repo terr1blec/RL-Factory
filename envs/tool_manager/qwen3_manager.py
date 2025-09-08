@@ -160,7 +160,9 @@ class QwenManager(ToolManager):
                 if load_scenario_args:
                     load_scenario_tools.append({
                         "name": tool_prefix + '-load_scenario',
-                        "args": load_scenario_args
+                        "args": json.dumps({
+                            "scenario": load_scenario_args
+                        })
                     })
                     loaded_tools.append(tool_prefix)
                     

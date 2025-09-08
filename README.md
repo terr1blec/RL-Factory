@@ -37,6 +37,7 @@ We’ll keep a fast release cycle to quickly deliver and polish the upcoming fea
   + **Tools cache**: cached tool invocation results to enhance post-processing efficiency [#57](https://github.com/Simple-Efficient/RL-Factory/pull/57)
   + **Handy evaluation**: added main_eval.sh for evaluation utility [#36](https://github.com/Simple-Efficient/RL-Factory/pull/36)
   + **Upgrade to VeRL-0.5**: Upgraded to VeRL-0.5 with maximal component decoupling [update/verl_0_5](https://github.com/Simple-Efficient/RL-Factory/tree/update/verl_0_5)
+  + **Add MS-SWIFT-3.7 to RL-Factory**: Added the support of MS-SWIFT-3.7 to make it more convenient for individual developers [#95](https://github.com/Simple-Efficient/RL-Factory/pull/95)
 
 ## Our Framework Design
 Our goal is to enable users to focus on reward logic and tool setup for fast agentic learning with minimal code, while hardcore developers could focus on improving training efficiency and model performance. 

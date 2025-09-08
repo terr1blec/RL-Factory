@@ -193,8 +193,8 @@ class RLHFDataset(Dataset):
 
     def _build_messages(self, example: dict):
         messages: list = example.pop(self.prompt_key)
-        if example.get('extra_info', {}).get('involved_classes'):
-            messages[0]["involved_classes"] = example['extra_info']['involved_classes']
+        messages[0]['involved_class'] = example.get('extra_info', {}).get('involved_class', None)
+        messages[0]['initial_config'] = example.get('extra_info', {}).get('initial_config', None)
 
         if self.image_key in example or self.video_key in example:
             for message in messages:

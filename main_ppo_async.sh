@@ -2,8 +2,8 @@ set -e -x
 
 export MODEL_PATH='Qwen/Qwen3-0.6B'
 export REWARD_MODEL_PATH='Qwen/Qwen3-0.6B'
-export TRAIN_DATA='/root/RL-Factory/data/nq_search/train_new.parquet'
-export TEST_DATA='/root/RL-Factory/data/nq_search/test_new.parquet'
+export TRAIN_DATA='/root/RL-Factory/data/BFCL/multi-turn/test_example.parquet'
+export TEST_DATA='/root/RL-Factory/data/BFCL/multi-turn/test_example.parquet'
 export VLLM_USE_V1=1
 # export VLLM_ATTENTION_BACKEND=XFORMERS
 

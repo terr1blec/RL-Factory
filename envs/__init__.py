@@ -15,19 +15,22 @@ TOOL_ENV_REGISTRY = {
     'vision': VisionEnv
 }
 
-CLASS_FILE_PATH_MAPPING = {
-    "SearchAPI": {"name": "search", "path": "envs.tools.search"}, 
-    "GorillaFileSystem": {"name": "file_system", "path": "envs.tools.file_system"},
-    "MathAPI": {"name": "math_api", "path": "envs.tools.math_api"},
-    "MessageAPI": {"name": "message_api", "path": "envs.tools.message_api"},
-    "TwitterAPI": {"name": "twitter_api", "path": "envs.tools.twitter_api"},
-    "TicketAPI": {"name": "ticket_api", "path": "envs.tools.ticket_api"},
-    "TradingBot": {"name": "trading_bot", "path": "envs.tools.trading_bot"},
-    "TravelAPI": {"name": "travel_api", "path": "envs.tools.travel_api"},
-    "VehicleControlAPI": {"name": "vehicle_control_api", "path": "envs.tools.vehicle_control_api"},
+CLASS_NAME_MAPPING = {
+    "SearchAPI": "search",
+    "GorillaFileSystem": "file_system",
+    "MathAPI": "math_api",
+    "MessageAPI": "message_api",
+    "TwitterAPI": "twitter_api",
+    "TicketAPI": "ticket_api",
+    "TradingBot": "trading_bot",
+    "TravelAPI": "travel_api",
+    "VehicleControlAPI": "vehicle_control_api",
 }
+
+NAME_CLASS_MAPPING = {v: k for k, v in CLASS_NAME_MAPPING.items()}
 
 # These classes are stateless and do not require any initial configuration
 STATELESS_CLASSES = [
+    "SearchAPI",
     "MathAPI",
 ]

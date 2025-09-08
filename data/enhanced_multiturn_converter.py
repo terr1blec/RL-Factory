@@ -997,7 +997,7 @@ class EnhancedMultiTurnConverter:
                 f.write(json.dumps(item, ensure_ascii=False) + '\n')
     
     def save_to_csv(self, data: List[Dict], output_file: str):
-        """保存数据到CSV文件"""
+        """保存数据到CSV文件 - 保持JSON字段为原始格式"""
         if not data:
             print("No data to save")
             return
@@ -1009,27 +1009,27 @@ class EnhancedMultiTurnConverter:
             writer.writeheader()
             
             for item in data:
-                # 将复杂对象转换为JSON字符串
+                # 直接使用原始数据，不转换为JSON字符串
                 row = {
                     "id": item["id"],
                     "question": item["question"],
-                    "golden_answers": json.dumps(item["golden_answers"], ensure_ascii=False),
+                    "golden_answers": item["golden_answers"],  # 保持原始list格式
                     "data_source": item["data_source"],
-                    "prompt": json.dumps(item["prompt"], ensure_ascii=False),
+                    "prompt": item["prompt"],  # 保持原始list格式
                     "ability": item["ability"],
-                    "reward_model": json.dumps(item["reward_model"], ensure_ascii=False),
-                    "extra_info": json.dumps(item["extra_info"], ensure_ascii=False)
+                    "reward_model": item["reward_model"],  # 保持原始dict格式
+                    "extra_info": item["extra_info"]  # 保持原始dict格式
                 }
                 writer.writerow(row)
     
     def save_to_parquet(self, data: List[Dict], output_file: str):
-        """保存数据到Parquet文件"""
+        """保存数据到Parquet文件 - 为了兼容性，复杂对象转换为JSON字符串"""
         if not data:
             print("No data to save")
             return
         
         try:
-            # 创建DataFrame
+            # 创建DataFrame - 为了Parquet兼容性，将复杂对象转换为JSON字符串
             df_data = []
             for item in data:
                 row = {
@@ -1053,15 +1053,98 @@ class EnhancedMultiTurnConverter:
         except Exception as e:
             print(f"保存Parquet文件时出错: {e}")
     
+    def save_to_parquet_with_native_types(self, data: List[Dict], output_file: str):
+        """保存数据到Parquet文件 - 使用PyArrow结构化类型保持原生格式"""
+        if not data:
+            print("No data to save")
+            return
+        
+        try:
+            # 使用pyarrow的结构化类型来保存复杂数据
+            import pyarrow as pa
+            import pyarrow.parquet as pq
+            
+            # 数据清理：确保类型一致性
+            cleaned_data = []
+            for item in data:
+                cleaned_item = item.copy()
+                
+                # 修复空的golden_answers列表 - 添加占位符以保持类型一致
+                if not cleaned_item['golden_answers']:
+                    cleaned_item['golden_answers'] = [""]  # 空字符串而不是空列表
+                
+                # 确保prompt不为空
+                if not cleaned_item['prompt']:
+                    cleaned_item['prompt'] = [{"content": "", "role": "user"}]
+                
+                # 确保reward_model结构完整
+                if not isinstance(cleaned_item['reward_model'], dict):
+                    cleaned_item['reward_model'] = {"ground_truth": "", "style": "rule"}
+                
+                # 处理extra_info结构，将复杂的initial_config转换为JSON字符串
+                if not isinstance(cleaned_item['extra_info'], dict):
+                    cleaned_item['extra_info'] = {
+                        "index": 0, 
+                        "split": "unknown", 
+                        "involved_class": [], 
+                        "initial_config": "{}"  # 空JSON字符串
+                    }
+                else:
+                    # 将initial_config转换为JSON字符串，保持数据完整性
+                    initial_config = cleaned_item['extra_info'].get('initial_config', {})
+                    if isinstance(initial_config, dict):
+                        initial_config_str = json.dumps(initial_config, ensure_ascii=False)
+                    else:
+                        initial_config_str = str(initial_config)
+                    
+                    processed_extra_info = {
+                        "index": cleaned_item['extra_info'].get('index', 0),
+                        "split": cleaned_item['extra_info'].get('split', 'unknown'),
+                        "involved_class": cleaned_item['extra_info'].get('involved_class', []),
+                        "initial_config": initial_config_str  # 转换为JSON字符串
+                    }
+                    cleaned_item['extra_info'] = processed_extra_info
+                
+                cleaned_data.append(cleaned_item)
+            
+            print(f"数据清理完成：处理了 {len(cleaned_data)} 条记录")
+            
+            # 创建DataFrame
+            df = pd.DataFrame(cleaned_data)
+            
+            # 让PyArrow自动推断schema，这样可以保持原生类型
+            # 这与nq_search文件使用的方法类似
+            table = pa.Table.from_pandas(df, preserve_index=False)
+            
+            # 保存到Parquet
+            pq.write_table(table, output_file)
+            print(f"已保存 {len(data)} 条数据到 {output_file} (原生类型格式)")
+            
+            # 验证保存的数据
+            df_read = pd.read_parquet(output_file)
+            sample_row = df_read.iloc[0] if len(df_read) > 0 else None
+            if sample_row is not None:
+                print(f"验证 - golden_answers类型: {type(sample_row['golden_answers'])}")
+                print(f"验证 - extra_info类型: {type(sample_row['extra_info'])}")
+            
+        except ImportError:
+            print("警告：缺少pyarrow依赖，回退到标准方法")
+            self.save_to_parquet(data, output_file)
+        except Exception as e:
+            print(f"原生类型保存失败，回退到标准方法: {e}")
+            print(f"错误详情: {str(e)}")
+            self.save_to_parquet(data, output_file)
+    
     def save_train_test_separately(self, train_data: List[Dict], test_data: List[Dict], output_dir: Path):
         """分别保存训练数据和测试数据为Parquet文件"""
         if train_data:
             train_parquet = output_dir / 'train.parquet'
-            self.save_to_parquet(train_data, str(train_parquet))
+            self.save_to_parquet_with_native_types(train_data, str(train_parquet))
         
         if test_data:
             test_parquet = output_dir / 'test.parquet'
-            self.save_to_parquet(test_data, str(test_parquet))
+            self.save_to_parquet_with_native_types(test_data, str(test_parquet))
+    
 
 def main():
     """主函数"""

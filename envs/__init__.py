@@ -15,18 +15,22 @@ TOOL_ENV_REGISTRY = {
     'vision': VisionEnv
 }
 
-CLASS_FILE_PATH_MAPPING = {
-    "GorillaFileSystem": {"name": "file_system", "path": "envs.tools.file_system"},
-    "MathAPI": "",
-    "MessageAPI": "",
-    "TwitterAPI": "",
-    "TicketAPI": "",
-    "TradingBot": "",
-    "TravelAPI": "",
-    "VehicleControlAPI": "",
+CLASS_NAME_MAPPING = {
+    "SearchAPI": "search",
+    "GorillaFileSystem": "file_system",
+    "MathAPI": "math_api",
+    "MessageAPI": "message_api",
+    "TwitterAPI": "twitter_api",
+    "TicketAPI": "ticket_api",
+    "TradingBot": "trading_bot",
+    "TravelAPI": "travel_api",
+    "VehicleControlAPI": "vehicle_control_api",
 }
+
+NAME_CLASS_MAPPING = {v: k for k, v in CLASS_NAME_MAPPING.items()}
 
 # These classes are stateless and do not require any initial configuration
 STATELESS_CLASSES = [
+    "SearchAPI",
     "MathAPI",
 ]

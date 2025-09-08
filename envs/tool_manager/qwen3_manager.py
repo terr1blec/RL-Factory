@@ -109,11 +109,12 @@ class QwenManager(ToolManager):
         results = await asyncio.gather(*tasks)
         return results
     
-    async def execute_all_tools(self, actions, tool_list):
+    async def execute_all_tools(self, actions, tool_list, initial_config_list=None):
         """异步并行执行所有工具列表
         
         Args:
             tool_list: 工具列表的列表
+            initial_config_list: 初始配置列表
             
         Returns:
             所有工具执行结果的列表
@@ -121,14 +122,16 @@ class QwenManager(ToolManager):
         
         # 并行执行每个工具列表
         tasks = []
-        for temp_action, temp_tool_list in zip(actions, tool_list):
-            tasks.append(self._execute_tool_batch(temp_action, temp_tool_list))
+        if initial_config_list is None:
+            initial_config_list = [None] * len(actions)
+        for temp_action, temp_tool_list, temp_initial_config in zip(actions, tool_list, initial_config_list):
+            tasks.append(self._execute_tool_batch(temp_action, temp_tool_list, temp_initial_config))
         
         results = await asyncio.gather(*tasks)
         
         return results
         
-    async def _execute_tool_batch(self, action, tools):
+    async def _execute_tool_batch(self, action, tools, initial_config: dict | None = None):
         """异步并行执行一批工具
         
         Args:
@@ -136,7 +139,34 @@ class QwenManager(ToolManager):
             
         Returns:
             工具执行结果的列表
-        """        
+        """
+        def append_load_scenario_tools(tools: list[dict], initial_config: dict | None = None) -> list[dict]:
+            from envs import NAME_CLASS_MAPPING
+            loaded_tools = []
+            load_scenario_tools = []
+            if initial_config is None:
+                return []
+
+            for tool in tools:
+                # 1. Map the tool name to the class name
+                tool_name = tool["name"]
+                tool_prefix = tool_name.split('-')[0]
+                if tool_prefix in loaded_tools: # avoid duplicate initialization
+                    continue
+                tool_class = NAME_CLASS_MAPPING[tool_prefix]
+
+                # 2. Initialize tool class based on the initial config
+                load_scenario_args = initial_config.get(tool_class, None)
+                if load_scenario_args:
+                    load_scenario_tools.append({
+                        "name": tool_prefix + '-load_scenario',
+                        "args": load_scenario_args
+                    })
+                    loaded_tools.append(tool_prefix)
+                    
+
+            return load_scenario_tools
+                
         async def execute_single_tool(tool):
             tool_instance = self.get_tool(tool["name"])
             args = tool["args"]
@@ -184,6 +214,8 @@ class QwenManager(ToolManager):
             results = {'role': 'assitant', 'content': """# Extract the tools failed due to: {}""".format(tools)}
         elif action == 'actions':
             # 'tools' is the list of the 'Tool' instances
+            load_scenario_tools = append_load_scenario_tools(tools, initial_config)
+            tools = load_scenario_tools + tools
             tasks = [execute_single_tool(temp_tool) for temp_tool in tools]
             tool_results = await asyncio.gather(*tasks)
             results = [{'role': 'tool', 'content': temp_tool_result} for temp_tool_result in tool_results]
@@ -362,42 +394,43 @@ class QwenManager(ToolManager):
 
         return parsed_tools
 
-    def filter_tools(self, involved_classes: list[str]) -> list:
-        from envs import CLASS_FILE_PATH_MAPPING, STATELESS_CLASSES
+    def filter_tools(self, involved_class: list[str] | None) -> list:
+        if involved_class is None:
+            return self.functions
+        
+        from envs import CLASS_NAME_MAPPING
         filtered_tools = []
 
         # 1. Only keep the tools related to the involved classes
-        for class_name in involved_classes:
-            tool_name = CLASS_FILE_PATH_MAPPING[class_name]['name']
+        for tool_class in involved_class:
+            tool_name = CLASS_NAME_MAPPING[tool_class]
             for tool in self.functions:
                 if tool_name in tool['name']:
                     filtered_tools.append(tool)
 
-        # 2. Remove the load_scenario tools from
-        filtered_tools = [tool for tool in filtered_tools if 'load_scenario' not in tool['name']]
+        # 2. Remove the load_scenario and save_scenario tools from
+        filtered_tools = [tool for tool in filtered_tools if 'load_scenario' not in tool['name'] and 'save_scenario' not in tool['name']]
 
         return filtered_tools
-        
-    def load_scenario(self, tool_name: str, initial_config: dict) -> None:
-        
-        pass
 
     def get_prompt(self, input_data, tokenizer, mode='initial', add_generation_prompt=True):
         assert mode in ['initial', 'tool_call', 'assistant_response'], 'Invalid mode: {}'.format(mode)
+        involved_class = input_data[0].get("involved_class", None)
+        filtered_tools = self.filter_tools(involved_class)
         base_chat = [
             {'role': SYSTEM, 'content': 'base'},
             {'role': USER, 'content': 'base'},
         ]
         base_prompt = tokenizer.apply_chat_template(
             conversation=base_chat,
-            tools=self.functions,
+            tools=filtered_tools,
             tokenize=False, add_generation_prompt=False
         )
 
         if mode == 'initial':
             chat = input_data
             prompt_with_chat_template = tokenizer.apply_chat_template(
-                conversation=chat, tokenize=False, tools=self.functions, 
+                conversation=chat, tokenize=False, tools=filtered_tools, 
                 add_generation_prompt=add_generation_prompt, enable_thinking=self.verl_config.enable_thinking
             )
         elif mode in ['tool_call', 'assistant_response']:
@@ -411,7 +444,7 @@ class QwenManager(ToolManager):
                 raise ValueError('Unexpected type of input_data {} ({})'.format(type(input_data), input_data))
             
             temp_prompt_with_chat_template = tokenizer.apply_chat_template(
-                conversation=base_chat + chat, tools=self.functions, 
+                conversation=base_chat + chat, tools=filtered_tools, 
                 tokenize=False, add_generation_prompt=add_generation_prompt, enable_thinking=self.verl_config.enable_thinking
             )
             prompt_with_chat_template = temp_prompt_with_chat_template.replace(base_prompt, '')

@@ -735,35 +735,3 @@ class VehicleControlAPI:
         """
         return {"shopLocation": "456 Oakwood Avenue, Rivermist, 83214"}
 
-    def save_scenario(self) -> Dict[str, Union[str, float, Dict]]:
-        """
-        Exports the current scenario state of the vehicle.
-        Returns:
-            scenario (Dict): The current scenario state of the vehicle.
-        """
-        scenario = {
-            "random_seed": getattr(self, "_random", None).seed if hasattr(self, "_random") else None,
-            "fuelLevel": self.fuelLevel,
-            "batteryVoltage": self.batteryVoltage,
-            "engine_state": self.engine_state,
-            "remainingUnlockedDoors": self.remainingUnlockedDoors,
-            "doorStatus": self.doorStatus,
-            "acTemperature": self.acTemperature,
-            "fanSpeed": self.fanSpeed,
-            "acMode": self.acMode,
-            "humidityLevel": self.humidityLevel,
-            "headLightStatus": self.headLightStatus,
-            "parkingBrakeStatus": self.parkingBrakeStatus,
-            "_parkingBrakeForce": self._parkingBrakeForce,
-            "_slopeAngle": self._slopeAngle,
-            "brakePedalStatus": self.brakePedalStatus,
-            "brakePedalForce": self._brakePedalForce,
-            "distanceToNextVehicle": self.distanceToNextVehicle,
-            "cruiseStatus": self.cruiseStatus,
-            "destination": self.destination,
-            "frontLeftTirePressure": self.frontLeftTirePressure,
-            "frontRightTirePressure": self.frontRightTirePressure,
-            "rearLeftTirePressure": self.rearLeftTirePressure,
-            "rearRightTirePressure": self.rearRightTirePressure,
-        }
-        return scenario

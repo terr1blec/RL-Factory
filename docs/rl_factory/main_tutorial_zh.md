@@ -117,7 +117,7 @@
     ...
     actor_rollout_ref.env.name=search\
     actor_rollout_ref.env.tool_manager=qwen3\
-    actor_rollout_ref.env.enable_thinking=True\
+    actor_rollout_ref.env.enable_thinking=False\
     actor_rollout_ref.env.config_path=/the/path/to/mcp_tools.pydata\
     ...
     ```

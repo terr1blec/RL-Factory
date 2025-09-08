@@ -18,6 +18,14 @@ Note that we don't combine the main with ray_trainer as ray_trainer is used by o
 import os
 import socket
 import json
+
+# 在导入其他模块之前先屏蔽MCP警告
+try:
+    from envs.utils.suppress_mcp_warnings import suppress_mcp_warnings
+    suppress_mcp_warnings()
+except ImportError:
+    pass
+
 import hydra
 import ray
 from omegaconf import OmegaConf
@@ -98,7 +106,7 @@ class TaskRunner:
         Args:
             config: Training configuration object containing all parameters needed
                    for setting up and running the PPO training process.
-        """
+        """        
         # Print the initial configuration. `resolve=True` will evaluate symbolic values.
         from pprint import pprint
 
@@ -190,7 +198,7 @@ class TaskRunner:
         elif config.actor_rollout_ref.actor.strategy == "megatron":
             assert config.actor_rollout_ref.actor.strategy == config.critic.strategy
             from verl.single_controller.ray.megatron import NVMegatronRayWorkerGroup
-            from verl.workers.megatron_workers import ActorRolloutRefWorker, AsyncActorRolloutRefWorker, CriticWorker
+            from verl.workers.megatron_workers import ActorRolloutRefWorker, AsyncActorRolloutRefWorker, CriticWorker, RewardRolloutWorker
 
             actor_rollout_cls = (
                 AsyncActorRolloutRefWorker

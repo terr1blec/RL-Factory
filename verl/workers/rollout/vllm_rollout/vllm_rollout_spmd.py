@@ -272,7 +272,7 @@ class vLLMRollout(BaseRollout):
         if batch_size != len(non_tensor_batch["raw_prompt_ids"]):
             raise RuntimeError("vllm sharding manager is not work properly.")
 
-        if "multi_modal_data" in non_tensor_batch:
+        if "multi_modal_data" in non_tensor_batch: # here , no more "pop",cuz we need raw_prompt_ids, multi_modal_data... for the next round tool call
             vllm_inputs = []
             for raw_prompt_ids, multi_modal_data in zip(
                 non_tensor_batch.get("raw_prompt_ids"), non_tensor_batch.get("multi_modal_data"), strict=True
@@ -534,15 +534,7 @@ class vLLMRewardRollout(vLLMRollout):
 
             os.environ["CUDA_TIMER_STREAM_KAFKA_ENABLE"] = "0"
             os.environ["MEGATRON_IMPORT_TIMERS"] = "0"
-            if vllm_version in (
-                "0.5.4",
-                "0.6.3",
-            ):
-                train_tp = kwargs.get("train_tp")
-                num_tp_per_train_tp = train_tp // tensor_parallel_size
-                vllm_ps.initialize_parallel_state(tensor_model_parallel_size=tensor_parallel_size, num_tp_per_train_tp=num_tp_per_train_tp)
-            else:
-                vllm_ps.initialize_model_parallel(tensor_model_parallel_size=tensor_parallel_size)
+            vllm_ps.initialize_model_parallel(tensor_model_parallel_size=tensor_parallel_size)
 
         max_model_len = int(config.max_model_len or config.prompt_length + config.response_length)
 
@@ -583,8 +575,7 @@ class vLLMRewardRollout(vLLMRollout):
         )
 
         # # we may detokenize the result all together later
-        if vllm_version != "0.3.1":
-            kwargs["detokenize"] = False
+        kwargs["detokenize"] = False
 
         if config.get('stop'):
             kwargs['detokenize'] = True

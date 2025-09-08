@@ -830,7 +830,7 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
 
         prompts.meta_info.update(meta_info)
 
-        if self.config.env.mmtool:
+        if self.config.env.mmtool: # for mm tool use
             su = MMToolUtils(self.tokenizer, processor=self.processor, meta_info=meta_info, config=self.rollout.config, env_object=self.env_object)
         else:
             su = ToolUtils(self.tokenizer, meta_info, self.rollout.config, env_object=self.env_object)
@@ -886,7 +886,6 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
             output = self.rollout_sharding_manager.postprocess_data(output)
             
         output = output.to('cpu')
-
 
         # clear kv cache
         get_torch_device().empty_cache()
@@ -1874,7 +1873,7 @@ class RewardRolloutWorker(Worker):
         self.tokenizer = hf_tokenizer(local_path, trust_remote_code=False)
         self.generation_config = get_generation_config(local_path, trust_remote_code=False)
 
-        vllm_rollout_cls = vLLMRewardRollout if self.config.rollout.mode == "sync" else vLLMAsyncRollout
+        vllm_rollout_cls = vLLMRewardRollout
         rollout = vllm_rollout_cls(
             model_path=local_path, 
             config=self.config.rollout, 
@@ -1917,7 +1916,7 @@ class RewardRolloutWorker(Worker):
             log_gpu_memory_usage("After entering rollout sharding manager", logger=logger)
 
             prompts = self.rollout_sharding_manager.preprocess_data(prompts)
-            with _timer("generate_sequences", timing_generate):
+            with simple_timer("generate_sequences", timing_generate):
                 output = self.rollout.generate_sequences(prompts=prompts)
 
             log_gpu_memory_usage("After rollout generation", logger=logger)

@@ -122,7 +122,12 @@ class ToolCompletionCallback(CompletionCallback):
         
         # Parse the assistant's response to extract action and tools, and execute all tools
         action, tools = self.env_object.tool_manager.parse_response(message["content"])
-        tool_results = await self.env_object.tool_manager.execute_all_tools([action], [tools])
+
+        # Get initialization config from user prompt
+        initial_config = messages[1].get("initial_config", None)
+
+        # Execute tool calls
+        tool_results = await self.env_object.tool_manager.execute_all_tools([action], [tools], [initial_config])
         tool_results = tool_results[0]
         
         if action == 'answer':
@@ -431,7 +436,12 @@ class ChatCompletionScheduler:
                 system_prompt = system_prompt_with_chat_template.split("<|im_start|>system\n")[1].split("<|im_end|>")[0]
                 temp_conversation[0]["content"] = system_prompt
             elif temp_conversation[0]["role"] == USER:
-                base_chat = [{"role": SYSTEM, "content": ""}]
+                base_chat = [{
+                    "role": SYSTEM,
+                    "content": "",
+                    "involved_class": temp_conversation[0].get("involved_class", None),
+                    "initial_config": temp_conversation[0].get("initial_config", None),
+                }]
                 system_prompt_with_chat_template = self.env_object.tool_manager.get_prompt(base_chat, self.completion_callback.tokenizer, mode='initial', add_generation_prompt=False)
                 system_prompt = system_prompt_with_chat_template.split("<|im_start|>system\n")[1].split("<|im_end|>")[0]
                 temp_conversation.insert(0, {"role": SYSTEM, "content": system_prompt})

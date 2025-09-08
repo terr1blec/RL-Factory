@@ -24,6 +24,13 @@ from typing import Dict, Optional, Union
 
 from dotenv import load_dotenv
 
+# 导入MCP警告屏蔽工具
+try:
+    from .suppress_mcp_warnings import suppress_mcp_warnings
+    suppress_mcp_warnings()
+except ImportError:
+    pass
+
 from qwen_agent.log import logger
 from qwen_agent.tools.base import BaseTool
 
@@ -357,7 +364,6 @@ class MCPClient:
                     self._session_context = ClientSession(read_stream, write_stream)
                     self.session = await self.exit_stack.enter_async_context(self._session_context)
                 else:
-                    # sse mode
                     headers = mcp_server.get('headers', {'Accept': 'text/event-stream'})
                     self._streams_context = sse_client(url, headers, sse_read_timeout=sse_read_timeout)
                     streams = await self.exit_stack.enter_async_context(self._streams_context)

@@ -241,6 +241,7 @@ class AsyncLLMServerManager:
         """Generate multiple sequences in parallel via chat scheduler."""
         assert self.chat_scheduler is not None, "chat scheduler is not initialized."
 
+        # 在这里执行的异步rollout，输入当前batch的全部prompts，端到端地返回全部结果
         future = asyncio.run_coroutine_threadsafe(
             self.chat_scheduler.generate_sequences(prompts, **sampling_params), self.chat_scheduler_loop
         )

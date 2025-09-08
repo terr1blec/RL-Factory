@@ -193,6 +193,8 @@ class RLHFDataset(Dataset):
 
     def _build_messages(self, example: dict):
         messages: list = example.pop(self.prompt_key)
+        messages[0]['involved_class'] = example.get('extra_info', {}).get('involved_class', None)
+        messages[0]['initial_config'] = example.get('extra_info', {}).get('initial_config', None)
 
         if self.image_key in example or self.video_key in example:
             for message in messages:
@@ -223,7 +225,13 @@ class RLHFDataset(Dataset):
         if self.processor is not None:
             from verl.utils.dataset.vision_utils import process_image, process_video
 
-            raw_prompt = self.processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
+            if self.use_tool and hasattr(self.env_object, "tool_manager") and hasattr(self.env_object.tool_manager, "get_prompt"):
+                #  使用 tool_manager 提供的 prompt
+                raw_prompt = self.env_object.tool_manager.get_prompt(messages, self.tokenizer, mode='initial', add_generation_prompt=True)
+            else:
+                # 使用 tokenizer 生成 prompt（禁用工具）
+                raw_prompt = self.processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
+
             multi_modal_data = {}
 
             images = None
@@ -260,6 +268,8 @@ class RLHFDataset(Dataset):
 
                 # second_per_grid_ts isn't used for training, just for mrope
                 row_dict["multi_modal_inputs"].pop("second_per_grid_ts", None)
+
+
 
         else:
             if self.use_tool and hasattr(self.env_object, "tool_manager") and hasattr(self.env_object.tool_manager, "get_prompt"):

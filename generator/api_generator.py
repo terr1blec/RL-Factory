@@ -66,8 +66,8 @@ class APIGenerator(BaseGenerator):
     
     @register_api_method('qwq')
     def get_response_qwq(self, message_list, temperature=0.7):
-        client = OpenAI(api_key='dummy_key', base_url='http://10.35.146.75:8419/v1')
-        model_name = 'deepseek-r1-friday'
+        client = OpenAI(api_key='dummy_key', base_url='http://0.0.0.0:8000/v1')
+        model_name = 'deepseek-r1'
         response = client.chat.completions.create(
             model=model_name,
             messages=message_list,
@@ -92,8 +92,8 @@ class APIGenerator(BaseGenerator):
 
     @register_api_method('deepseek-r1')
     def get_response_r1(self, message_list, temperature=0.7):
-        client = OpenAI(api_key='dummy_key', base_url='http://deepseek.sankuai.com/v1')
-        model_name = 'DeepSeek-R1-BF16'
+        client = OpenAI(api_key='dummy_key', base_url='http://0.0.0.0:8000/v1')
+        model_name = 'DeepSeek-R1'
         response = client.chat.completions.create(
             model=model_name,
             messages=message_list,

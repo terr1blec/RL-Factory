@@ -65,14 +65,14 @@ from verl.utils.hdfs_io import copy, makedirs
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--local_dir", default="/data/user/qxiao183/qxiao183test2/jjw/datasets/textvqav4")
+    parser.add_argument("--local_dir", default="textvqav4")
     parser.add_argument("--hdfs_dir", default=None)
 
     args = parser.parse_args()
 
     # data_source = "/mnt/dolphinfs/hdd_pool/docker/share/jjw/visual_tool/huggingface.co/datasets/hiyouga/geometry3k"
-    data_source = "/data/user/qxiao183/qxiao183test2/jjw/datasets/textvqa/train-00001-of-00020.parquet"
-    data_source1 = "/data/user/qxiao183/qxiao183test2/jjw/datasets/textvqa/train-00002-of-00020.parquet"
+    data_source = "/datasets/textvqa/train-00001-of-00020.parquet"
+    data_source1 = "/datasets/textvqa/train-00002-of-00020.parquet"
     # dataset = datasets.load_dataset(data_source)
     # breakpoint()
     train_dataset = datasets.load_dataset("parquet",data_files=data_source)["train"].train_test_split(test_size=0.45,)['train'] 

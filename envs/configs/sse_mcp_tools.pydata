@@ -1,6 +1,6 @@
 [
     {'mcpServers': {
-        'meituan_search': {
+        'search': {
             'url': 'http://xxxx:8080/sse',
         }
     }}

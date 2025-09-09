@@ -1835,13 +1835,13 @@ class AsyncActorRolloutRefWorker(ActorRolloutRefWorker):
         return True
 
 
-class RewardRolloutWorker(Worker):
+class RewardRolloutWorker(Worker, DistProfilerExtension):
     """
     This worker can be instantiated as a standalone actor or a standalone rollout or a standalone reference policy
     or a hybrid engine based on the config.rollout
     """
 
-    def __init__(self, config: DictConfig, role: str):
+    def __init__(self, config: DictConfig, role: str, **kwargs):
         super().__init__()
         self.config = config
         import torch.distributed
@@ -1850,6 +1850,12 @@ class RewardRolloutWorker(Worker):
             rank = int(os.environ.get("RANK", 0))
             world_size = int(os.environ.get("WORLD_SIZE", 1))
             torch.distributed.init_process_group(backend="cpu:gloo,cuda:nccl" if is_cuda_available else "cpu:gloo,npu:hccl", rank=rank, world_size=world_size)
+
+        DistProfilerExtension.__init__(
+            self, DistProfiler(rank=self.rank, 
+                               config=omega_conf_to_dataclass(config.get("profiler")), 
+                               option=kwargs.get("profile_option", None))
+        )
 
         self.role = role
         assert self.role == 'reward_rollout'

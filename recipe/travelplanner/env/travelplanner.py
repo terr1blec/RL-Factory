@@ -2,10 +2,9 @@ import re
 import json
 import string
 import random
-from .base import Env
-from .reward_score.evaluation import custom_eval
+from ....envs.base import Env
 import torch
-from .reward_score.evaluation.custom_eval import evaluate_plan
+from ..reward_score.evaluation.custom_eval import evaluate_plan
 from typing import Optional, Dict
 
 # travel planning agent support

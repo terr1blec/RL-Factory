@@ -1322,6 +1322,12 @@ class RewardRolloutWorker(MegatronWorker, DistProfilerExtension):
                 # expert_tensor_parallel_size=self.config.actor.megatron.expert_tensor_parallel_size,
             )
 
+        DistProfilerExtension.__init__(
+            self, DistProfiler(rank=self.rank, 
+                               config=omega_conf_to_dataclass(config.get("profiler")), 
+                               option=kwargs.get("profile_option", None))
+        )
+
         set_random_seed(seed=self.config.rollout.seed)
 
         self.role = role

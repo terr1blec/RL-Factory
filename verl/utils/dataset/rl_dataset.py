@@ -166,9 +166,19 @@ class RLHFDataset(Dataset):
                     return len(processor(text=[raw_prompt], images=images, videos=videos)["input_ids"][0])
 
             else:
-
-                def doc2len(doc) -> int:
-                    return len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True))
+                if self.use_tool and hasattr(self.env_object, "tool_manager") and hasattr(self.env_object.tool_manager, "get_prompt"):
+                    def doc2len(doc) -> int:
+                        messages = self._build_messages(doc)
+                        raw_prompt = self.env_object.tool_manager.get_prompt(
+                            messages,
+                            self.tokenizer,
+                            mode='initial',
+                            add_generation_prompt=True,
+                        )
+                        return len(tokenizer.encode(raw_prompt, add_special_tokens=False))
+                else:
+                    def doc2len(doc) -> int:
+                        return len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True))
 
             dataframe = dataframe.filter(
                 lambda doc: doc2len(doc) <= self.max_prompt_length,
@@ -195,6 +205,10 @@ class RLHFDataset(Dataset):
         messages: list = example.pop(self.prompt_key)
         messages[0]['involved_class'] = example.get('extra_info', {}).get('involved_class', None)
         messages[0]['initial_config'] = example.get('extra_info', {}).get('initial_config', None)
+        # TODO: I think we should have a seperate class or function to load dataset into target format.
+        if isinstance(messages[0]['initial_config'], str):
+            import json
+            messages[0]['initial_config'] = json.loads(messages[0]['initial_config'])
 
         if self.image_key in example or self.video_key in example:
             for message in messages:
@@ -268,9 +282,6 @@ class RLHFDataset(Dataset):
 
                 # second_per_grid_ts isn't used for training, just for mrope
                 row_dict["multi_modal_inputs"].pop("second_per_grid_ts", None)
-
-
-
         else:
             if self.use_tool and hasattr(self.env_object, "tool_manager") and hasattr(self.env_object.tool_manager, "get_prompt"):
                 #  使用 tool_manager 提供的 prompt
@@ -326,7 +337,7 @@ class RLHFDataset(Dataset):
                 raw_prompt_ids = raw_prompt_ids[:left_half] + raw_prompt_ids[-right_half:]
             elif self.truncation == "error":
                 raise RuntimeError(f"Prompt length {len(raw_prompt_ids)} is longer than {self.max_prompt_length}.")
-
+            
         row_dict["raw_prompt_ids"] = raw_prompt_ids
         # encode prompts without chat template
         if self.return_raw_chat:

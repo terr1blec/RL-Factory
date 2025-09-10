@@ -141,7 +141,6 @@ class QwenManager(ToolManager):
             工具执行结果的列表
         """
         def append_load_scenario_tools(tools: list[dict], initial_config: dict | None = None) -> list[dict]:
-            from envs import NAME_CLASS_MAPPING
             loaded_tools = []
             load_scenario_tools = []
             if initial_config is None:
@@ -150,23 +149,21 @@ class QwenManager(ToolManager):
             for tool in tools:
                 # 1. Map the tool name to the class name
                 tool_name = tool["name"]
-                tool_prefix = tool_name.split('-')[0]
-                if tool_prefix in loaded_tools: # avoid duplicate initialization
+                tool_class = tool_name.split('-')[0]
+                if tool_class in loaded_tools: # avoid duplicate initialization
                     continue
-                tool_class = NAME_CLASS_MAPPING[tool_prefix]
 
                 # 2. Initialize tool class based on the initial config
                 load_scenario_args = initial_config.get(tool_class, None)
                 if load_scenario_args:
                     load_scenario_tools.append({
-                        "name": tool_prefix + '-load_scenario',
+                        "name": tool_class + '-load_scenario',
                         "args": json.dumps({
                             "scenario": load_scenario_args
                         })
                     })
-                    loaded_tools.append(tool_prefix)
+                    loaded_tools.append(tool_class)
                     
-
             return load_scenario_tools
                 
         async def execute_single_tool(tool):
@@ -403,16 +400,13 @@ class QwenManager(ToolManager):
     def filter_tools(self, involved_class: list[str] | None) -> list:
         if involved_class is None:
             return self.functions
-        
-        from envs import CLASS_NAME_MAPPING
 
         filtered_tools = []
 
         # 1. Only keep the tools related to the involved classes
         for tool_class in involved_class:
-            tool_name = CLASS_NAME_MAPPING[tool_class]
             for tool in self.functions:
-                if tool_name in tool['name']:
+                if tool_class in tool['name']:
                     filtered_tools.append(tool)
 
         # 2. Remove the load_scenario and save_scenario tools from

@@ -981,6 +981,7 @@ class EnhancedMultiTurnConverter:
                                     "role": "user"
                                 }
                             ],
+                            "agent_name": "tool_agent",
                             "ability": "tool_use",
                             "reward_model": {
                                 "ground_truth": json.dumps(current_golden, ensure_ascii=False),
@@ -1016,7 +1017,7 @@ class EnhancedMultiTurnConverter:
             print("No data to save")
             return
         
-        fieldnames = ["id", "question", "golden_answers", "data_source", "prompt", "ability", "reward_model", "extra_info"]
+        fieldnames = ["id", "question", "golden_answers", "data_source", "prompt", "ability", "reward_model", "extra_info", "agent_name"]
         
         with open(output_file, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -1032,7 +1033,8 @@ class EnhancedMultiTurnConverter:
                     "prompt": item["prompt"],  # 保持原始list格式
                     "ability": item["ability"],
                     "reward_model": item["reward_model"],  # 保持原始dict格式
-                    "extra_info": item["extra_info"]  # 保持原始dict格式
+                    "extra_info": item["extra_info"],  # 保持原始dict格式
+                    "agent_name": item["agent_name"]  # 保持原始str格式
                 }
                 writer.writerow(row)
     
@@ -1051,6 +1053,7 @@ class EnhancedMultiTurnConverter:
                     "question": item["question"],
                     "golden_answers": json.dumps(item["golden_answers"], ensure_ascii=False),
                     "data_source": item["data_source"],
+                    "agent_name": item["agent_name"],
                     "prompt": json.dumps(item["prompt"], ensure_ascii=False),
                     "ability": item["ability"],
                     "reward_model": json.dumps(item["reward_model"], ensure_ascii=False),
@@ -1090,7 +1093,7 @@ class EnhancedMultiTurnConverter:
                 # 确保prompt不为空
                 if not cleaned_item['prompt']:
                     cleaned_item['prompt'] = [{"content": "", "role": "user"}]
-                
+
                 # 确保reward_model结构完整
                 if not isinstance(cleaned_item['reward_model'], dict):
                     cleaned_item['reward_model'] = {"ground_truth": "", "style": "rule"}

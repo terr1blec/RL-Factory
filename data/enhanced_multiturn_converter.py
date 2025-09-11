@@ -193,7 +193,7 @@ class EnhancedMultiTurnConverter:
         # 参数名映射
         self.param_mapping = {
             # FileSystem相关
-            'ls': {'a': 'show_hidden'},
+            'ls': {'show_hidden': 'show_hidden'},
             'cd': {'folder': 'folder'},
             'mkdir': {'dir_name': 'dir_name'},
             'touch': {'file_name': 'file_name'},
@@ -206,27 +206,27 @@ class EnhancedMultiTurnConverter:
             'grep': {'file_name': 'file_name', 'pattern': 'pattern'},
             'tail': {'file_name': 'file_name', 'lines': 'lines'},
             'diff': {'file_name1': 'file_name1', 'file_name2': 'file_name2'},
-            'wc': {'file_name': 'file_name'},
+            'wc': {'file_name': 'file_name', 'mode': 'mode'},
             'sort': {'file_name': 'file_name'},
-            'du': {'path': 'path'},
+            'du': {'human_readable': 'human_readable'},
             'rmdir': {'dir_name': 'dir_name'},
-            'load_scenario': {'scenario': 'scenario'},
+            'load_scenario': {'scenario': 'scenario', 'long_context': 'long_context'},
             'save_scenario': {},
             
             # Math相关
-            'logarithm': {'number': 'number', 'base': 'base'},
+            'logarithm': {'value': 'value', 'base': 'base', 'precision': 'precision'},
             'mean': {'numbers': 'numbers'},
             'standard_deviation': {'numbers': 'numbers'},
-            'si_unit_conversion': {'value': 'value', 'from_unit': 'from_unit', 'to_unit': 'to_unit'},
-            'imperial_si_conversion': {'value': 'value', 'from_unit': 'from_unit', 'to_unit': 'to_unit'},
+            'si_unit_conversion': {'value': 'value', 'unit_in': 'unit_in', 'unit_out': 'unit_out'},
+            'imperial_si_conversion': {'value': 'value', 'unit_in': 'unit_in', 'unit_out': 'unit_out'},
             'add': {'a': 'a', 'b': 'b'},
             'subtract': {'a': 'a', 'b': 'b'},
             'multiply': {'a': 'a', 'b': 'b'},
             'divide': {'a': 'a', 'b': 'b'},
             'power': {'base': 'base', 'exponent': 'exponent'},
-            'square_root': {'number': 'number'},
+            'square_root': {'number': 'number', 'precision': 'precision'},
             'absolute_value': {'number': 'number'},
-            'round_number': {'number': 'number', 'decimals': 'decimals'},
+            'round_number': {'number': 'number', 'decimal_places': 'decimal_places'},
             'percentage': {'part': 'part', 'whole': 'whole'},
             'min_value': {'numbers': 'numbers'},
             'max_value': {'numbers': 'numbers'},
@@ -235,16 +235,16 @@ class EnhancedMultiTurnConverter:
             # posting/Posting相关
             'authenticate_twitter': {'username': 'username', 'password': 'password'},
             'posting_get_login_status': {},
-            'post_tweet': {'content': 'content'},
+            'post_tweet': {'content': 'content', 'tags': 'tags', 'mentions': 'mentions'},
             'retweet': {'tweet_id': 'tweet_id'},
-            'comment': {'tweet_id': 'tweet_id', 'comment': 'comment'},
-            'mention': {'username': 'username', 'content': 'content'},
-            'follow_user': {'username': 'username'},
+            'comment': {'tweet_id': 'tweet_id', 'comment_content': 'comment_content'},
+            'mention': {'tweet_id': 'tweet_id', 'mentioned_usernames': 'mentioned_usernames'},
+            'follow_user': {'username_to_follow': 'username_to_follow'},
             'list_all_following': {},
-            'unfollow_user': {'username': 'username'},
+            'unfollow_user': {'username_to_unfollow': 'username_to_unfollow'},
             'get_tweet': {'tweet_id': 'tweet_id'},
             'get_user_tweets': {'username': 'username'},
-            'search_tweets': {'query': 'query'},
+            'search_tweets': {'keyword': 'keyword'},
             'get_tweet_comments': {'tweet_id': 'tweet_id'},
             'get_user_stats': {'username': 'username'},
             
@@ -252,22 +252,22 @@ class EnhancedMultiTurnConverter:
             'create_ticket': {'title': 'title', 'description': 'description', 'priority': 'priority'},
             'get_ticket': {'ticket_id': 'ticket_id'},
             'close_ticket': {'ticket_id': 'ticket_id'},
-            'resolve_ticket': {'ticket_id': 'ticket_id'},
-            'edit_ticket': {'ticket_id': 'ticket_id', 'title': 'title', 'description': 'description'},
+            'resolve_ticket': {'ticket_id': 'ticket_id', 'resolution': 'resolution'},
+            'edit_ticket': {'ticket_id': 'ticket_id', 'title': 'title', 'description': 'description', 'status': 'status', 'priority': 'priority'},
             'ticket_login': {'username': 'username', 'password': 'password'},
             'ticket_get_login_status': {},
             'logout': {},
-            'get_user_tickets': {},
+            'get_user_tickets': {'status': 'status'},
             
             # Trading相关
             'get_current_time': {},
-            'update_market_status': {'status': 'status'},
+            'update_market_status': {'current_time_str': 'current_time_str'},
             'get_symbol_by_name': {'name': 'name'},
             'get_stock_info': {'symbol': 'symbol'},
             'get_order_details': {'order_id': 'order_id'},
             'cancel_order': {'order_id': 'order_id'},
-            'place_order': {'symbol': 'symbol', 'side': 'side', 'quantity': 'quantity', 'order_type': 'order_type'},
-            'make_transaction': {'symbol': 'symbol', 'side': 'side', 'quantity': 'quantity'},
+            'place_order': {'order_type': 'order_type', 'symbol': 'symbol', 'price': 'price', 'amount': 'amount'},
+            'make_transaction': {'account_id': 'account_id', 'xact_type': 'xact_type', 'amount': 'amount'},
             'get_account_info': {},
             'trading_login': {'username': 'username', 'password': 'password'},
             'trading_get_login_status': {},
@@ -276,65 +276,65 @@ class EnhancedMultiTurnConverter:
             'remove_stock_from_watchlist': {'symbol': 'symbol'},
             'get_watchlist': {},
             'get_order_history': {},
-            'get_transaction_history': {},
-            'update_stock_price': {'symbol': 'symbol', 'price': 'price'},
-            'get_available_stocks': {},
-            'filter_stocks_by_price': {'min_price': 'min_price', 'max_price': 'max_price'},
-            'add_to_watchlist': {'symbol': 'symbol'},
-            'notify_price_change': {'symbol': 'symbol', 'price': 'price'},
+            'get_transaction_history': {'start_date': 'start_date', 'end_date': 'end_date'},
+            'update_stock_price': {'symbol': 'symbol', 'new_price': 'new_price'},
+            'get_available_stocks': {'sector': 'sector'},
+            'filter_stocks_by_price': {'stocks': 'stocks', 'min_price': 'min_price', 'max_price': 'max_price'},
+            'add_to_watchlist': {'stock': 'stock'},
+            'notify_price_change': {'stocks': 'stocks', 'threshold': 'threshold'},
             
             # Travel相关
-            'authenticate_travel': {'username': 'username', 'password': 'password'},
+            'authenticate_travel': {'client_id': 'client_id', 'client_secret': 'client_secret', 'refresh_token': 'refresh_token', 'grant_type': 'grant_type', 'user_first_name': 'user_first_name', 'user_last_name': 'user_last_name'},
             'travel_get_login_status': {},
-            'get_budget_fiscal_year': {},
-            'register_credit_card': {'card_number': 'card_number', 'expiry_date': 'expiry_date'},
-            'get_flight_cost': {'departure': 'departure', 'destination': 'destination', 'date': 'date'},
-            'get_credit_card_balance': {'card_id': 'card_id'},
-            'book_flight': {'flight_id': 'flight_id', 'card_id': 'card_id'},
-            'retrieve_invoice': {'booking_id': 'booking_id'},
+            'get_budget_fiscal_year': {'lastModifiedAfter': 'lastModifiedAfter', 'includeRemoved': 'includeRemoved'},
+            'register_credit_card': {'access_token': 'access_token', 'card_number': 'card_number', 'expiration_date': 'expiration_date', 'cardholder_name': 'cardholder_name', 'card_verification_number': 'card_verification_number'},
+            'get_flight_cost': {'travel_from': 'travel_from', 'travel_to': 'travel_to', 'travel_date': 'travel_date', 'travel_class': 'travel_class'},
+            'get_credit_card_balance': {'access_token': 'access_token', 'card_id': 'card_id'},
+            'book_flight': {'access_token': 'access_token', 'card_id': 'card_id', 'travel_date': 'travel_date', 'travel_from': 'travel_from', 'travel_to': 'travel_to', 'travel_class': 'travel_class'},
+            'retrieve_invoice': {'access_token': 'access_token', 'booking_id': 'booking_id', 'insurance_id': 'insurance_id'},
             'list_all_airports': {},
-            'cancel_booking': {'booking_id': 'booking_id'},
-            'compute_exchange_rate': {'from_currency': 'from_currency', 'to_currency': 'to_currency'},
-            'verify_traveler_information': {'passport_number': 'passport_number'},
-            'set_budget_limit': {'amount': 'amount'},
-            'get_nearest_airport_by_city': {'city': 'city'},
-            'purchase_insurance': {'booking_id': 'booking_id', 'insurance_type': 'insurance_type'},
-            'contact_customer_support': {'message': 'message'},
+            'cancel_booking': {'access_token': 'access_token', 'booking_id': 'booking_id'},
+            'compute_exchange_rate': {'base_currency': 'base_currency', 'target_currency': 'target_currency', 'value': 'value'},
+            'verify_traveler_information': {'first_name': 'first_name', 'last_name': 'last_name', 'date_of_birth': 'date_of_birth', 'passport_number': 'passport_number'},
+            'set_budget_limit': {'access_token': 'access_token', 'budget_limit': 'budget_limit'},
+            'get_nearest_airport_by_city': {'location': 'location'},
+            'purchase_insurance': {'access_token': 'access_token', 'insurance_type': 'insurance_type', 'booking_id': 'booking_id', 'insurance_cost': 'insurance_cost', 'card_id': 'card_id'},
+            'contact_customer_support': {'booking_id': 'booking_id', 'message': 'message'},
             'get_all_credit_cards': {},
             
             # Vehicle相关
-            'startEngine': {},
-            'fillFuelTank': {'amount': 'amount'},
-            'lockDoors': {},
-            'adjustClimateControl': {'temperature': 'temperature', 'fan_speed': 'fan_speed'},
-            'get_outside_temperature_from_google': {'location': 'location'},
-            'get_outside_temperature_from_weather_com': {'location': 'location'},
+            'startEngine': {'ignitionMode': 'ignitionMode'},
+            'fillFuelTank': {'fuelAmount': 'fuelAmount'},
+            'lockDoors': {'unlock': 'unlock', 'door': 'door'},
+            'adjustClimateControl': {'temperature': 'temperature', 'unit': 'unit', 'fanSpeed': 'fanSpeed', 'mode': 'mode'},
+            'get_outside_temperature_from_google': {},
+            'get_outside_temperature_from_weather_com': {},
             'setHeadlights': {'mode': 'mode'},
-            'displayCarStatus': {},
-            'activateParkingBrake': {},
-            'pressBrakePedal': {'force': 'force'},
+            'displayCarStatus': {'option': 'option'},
+            'activateParkingBrake': {'mode': 'mode'},
+            'pressBrakePedal': {'pedalPosition': 'pedalPosition'},
             'releaseBrakePedal': {},
-            'setCruiseControl': {'speed': 'speed'},
+            'setCruiseControl': {'speed': 'speed', 'activate': 'activate', 'distanceToNextVehicle': 'distanceToNextVehicle'},
             'get_current_speed': {},
-            'estimate_drive_feasibility_by_mileage': {'destination': 'destination'},
-            'liter_to_gallon': {'liters': 'liters'},
-            'gallon_to_liter': {'gallons': 'gallons'},
-            'estimate_distance': {'origin': 'origin', 'destination': 'destination'},
+            'estimate_drive_feasibility_by_mileage': {'distance': 'distance'},
+            'liter_to_gallon': {'liter': 'liter'},
+            'gallon_to_liter': {'gallon': 'gallon'},
+            'estimate_distance': {'cityA': 'cityA', 'cityB': 'cityB'},
             'get_zipcode_based_on_city': {'city': 'city'},
             'set_navigation': {'destination': 'destination'},
             'check_tire_pressure': {},
-            'find_nearest_tire_shop': {'location': 'location'},
+            'find_nearest_tire_shop': {},
             
             # Message相关
             'list_users': {},
-            'get_user_id': {'username': 'username'},
-            'message_login': {'username': 'username', 'password': 'password'},
+            'get_user_id': {'user': 'user'},
+            'message_login': {'user_id': 'user_id'},
             'message_get_login_status': {},
-            'send_message': {'recipient': 'recipient', 'message': 'message'},
-            'delete_message': {'message_id': 'message_id'},
+            'send_message': {'receiver_id': 'receiver_id', 'message': 'message'},
+            'delete_message': {'receiver_id': 'receiver_id'},
             'view_messages_sent': {},
-            'add_contact': {'username': 'username'},
-            'search_messages': {'query': 'query'},
+            'add_contact': {'user_name': 'user_name'},
+            'search_messages': {'keyword': 'keyword'},
             'get_message_stats': {},
         }
         
@@ -956,6 +956,19 @@ class EnhancedMultiTurnConverter:
                         
                         mapped_initial_config = self.map_initial_config_classes(current_scenario)
                         
+                        # 获取当前轮的final_config (scenario_after)
+                        final_config = {}
+                        if turn_idx < len(execution_history) and execution_history[turn_idx]['scenario_after']:
+                            final_config = execution_history[turn_idx]['scenario_after']
+                        elif turn_idx < len(execution_history) and execution_history[turn_idx]['scenario_before']:
+                            # 如果没有scenario_after，使用scenario_before作为final_config
+                            final_config = execution_history[turn_idx]['scenario_before']
+                        else:
+                            # 回退到initial_config
+                            final_config = initial_config
+                        
+                        mapped_final_config = self.map_initial_config_classes(final_config)
+                        
                         # 创建符合要求的数据格式
                         single_turn_item = {
                             "id": f"{item_id}_turn_{turn_idx}_{q_idx}",
@@ -978,6 +991,7 @@ class EnhancedMultiTurnConverter:
                                 "split": split_type,
                                 "involved_class": mapped_classes,
                                 "initial_config": mapped_initial_config,
+                                "final_config": mapped_final_config
                             #     "original_id": item_id,
                             #     "turn_index": turn_idx,
                             #     "question_index": q_idx,
@@ -1087,7 +1101,8 @@ class EnhancedMultiTurnConverter:
                         "index": 0, 
                         "split": "unknown", 
                         "involved_class": [], 
-                        "initial_config": "{}"  # 空JSON字符串
+                        "initial_config": "{}",
+                        "final_config": "{}"  # 空JSON字符串
                     }
                 else:
                     # 将initial_config转换为JSON字符串，保持数据完整性
@@ -1097,11 +1112,19 @@ class EnhancedMultiTurnConverter:
                     else:
                         initial_config_str = str(initial_config)
                     
+                    # 将final_config转换为JSON字符串，保持数据完整性
+                    final_config = cleaned_item['extra_info'].get('final_config', {})
+                    if isinstance(final_config, dict):
+                        final_config_str = json.dumps(final_config, ensure_ascii=False)
+                    else:
+                        final_config_str = str(final_config)
+                    
                     processed_extra_info = {
                         "index": cleaned_item['extra_info'].get('index', 0),
                         "split": cleaned_item['extra_info'].get('split', 'unknown'),
                         "involved_class": cleaned_item['extra_info'].get('involved_class', []),
-                        "initial_config": initial_config_str  # 转换为JSON字符串
+                        "initial_config": initial_config_str,  # 转换为JSON字符串
+                        "final_config": final_config_str  # 添加final_config字段
                     }
                     cleaned_item['extra_info'] = processed_extra_info
                 
@@ -1153,8 +1176,8 @@ def main():
     parser = argparse.ArgumentParser(description='增强的多轮对话转换器')
     parser.add_argument('--enable-execution', action='store_true', 
                        help='启用真实工具执行以生成历史轨迹（需要更多时间）')
-    parser.add_argument('--num-items', type=int, default=500,
-                       help='处理的数据项数量（默认500个）')
+    parser.add_argument('--num-items', type=int, default=200,
+                       help='处理的数据项数量（默认200个）')
     parser.add_argument('--test-nums', type=int, default=30,
                        help='测试集数量，从总数据中划分出指定数量作为测试集（默认0，全部作为训练集）')
     

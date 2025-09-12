@@ -120,6 +120,7 @@ For **future progression**, we will continue to prioritize **"easy"** and **"eff
 </p>
 
 
+
 ## How to contribute?
 We welcome all users and developers to contribute code to RLFactory. If you have any questions, encounter bugs, or would like to collaborate on development, please feel free to contact us!
 
@@ -127,7 +128,7 @@ We welcome all users and developers to contribute code to RLFactory. If you have
 2. Contact us via email at chaijiajun@meituan.com or gjyin@outlook.com.
 3. Join our WeChat group(preferred) and become a pioneer in Agent training!
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/773a834d-d0c6-4454-9c5d-3e421ca9ad05" alt="Description" style="width:200px; height:auto;"/>
+  <img src="https://github.com/user-attachments/assets/91c855b2-3e0b-41eb-8535-bff96214f21e" alt="Description" style="width:200px; height:auto;"/>
   <img src="https://github.com/user-attachments/assets/e59f1a14-faee-4ec8-97cd-5e90ff34a43d" alt="Description" style="width:200px; height:auto;"/>
 </div>
 

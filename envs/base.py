@@ -7,7 +7,7 @@ from verl import DataProto
 from envs.tool_manager import TOOL_MANAGER_REGISTRY
 from verl.utils.model import compute_position_id_with_mask
 from verl.utils.torch_functional import tokenize_and_postprocess_data
-
+from verl.protocol import pad_dataproto_to_divisor, unpad_dataproto
 
 class Env(ABC):
     def __init__(self, config, centralized_actor=None):
@@ -122,9 +122,7 @@ class Env(ABC):
             valid_action.append(temp_valid_action)
             is_tool.append(temp_is_tool)
 
-        
         return next_obs, dones, valid_action, is_tool
-    
 
 
     def compute_score(self, reward_rollout_wg, reward_tokenizer, tokenizer, data: DataProto, if_val=False, use_process_reward=False):
@@ -180,7 +178,7 @@ class Env(ABC):
                 'ground_truth': data_item.non_tensor_batch['reward_model']['ground_truth'],
                 'extra_info': data_item.non_tensor_batch.get('extra_info', None)
             }
-            
+
             # 找到所有step的位置
             mask_indices = torch.where(step_mask == 1)[0]
             assert len(mask_indices) > 0, "no step mask"
@@ -224,14 +222,14 @@ class Env(ABC):
     def _compute_score_with_reward_rollout_wg(self, reward_rollout_wg, reward_tokenizer, data: DataProto):
         # 基于actor rollout的回答和真实答案构造judge model的prompts
         reward_prompt_strs = self.get_prompt_for_reward(reward_tokenizer, data)
-        
+
         # 展平reward_prompt_strs为一个batch
         flat_prompts = []
         original_shapes = []  # 记录每个样本的prompt数量
         for prompts in reward_prompt_strs:
             original_shapes.append(len(prompts))
             flat_prompts.extend(prompts)
-        
+
         # 将flat_prompts转换为DataProto格式
         input_ids = []
         attention_mask = []
@@ -253,15 +251,17 @@ class Env(ABC):
             "input_ids": torch.cat(input_ids, dim=0),
             "attention_mask": torch.cat(attention_mask, dim=0)
         }
-        
+
         # 计算position_ids
         tensors["position_ids"] = compute_position_id_with_mask(tensors["attention_mask"])
-
         data_proto = DataProto.from_dict(tensors=tensors)
-        
-        # 生成responses
-        responses_data = reward_rollout_wg.generate_sequences(data_proto)
-        
+
+        # padding并生成response
+        size_divisor = reward_rollout_wg.world_size
+        data_proto_padded, pad_size = pad_dataproto_to_divisor(data_proto, size_divisor)
+        responses_data = reward_rollout_wg.generate_sequences(data_proto_padded)
+        responses_data = unpad_dataproto(responses_data, pad_size=pad_size)
+
         # 计算每个response的分数
         flat_scores = []
         for i, temp_response_data in enumerate(responses_data):

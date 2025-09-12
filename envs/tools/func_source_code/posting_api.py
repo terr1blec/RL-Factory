@@ -24,6 +24,7 @@ class TwitterAPI:
         # tweet_counter is used to assign unique IDs to tweets, it might not be the same as the length of the tweets list for different scenarios
         self.tweet_counter: int
         self._api_description = "This tool belongs to the TwitterAPI, which provides core functionality for posting tweets, retweeting, commenting, and following users on Twitter."
+        
 
     def _load_scenario(self, scenario: dict, long_context=False) -> None:
         """
@@ -47,6 +48,7 @@ class TwitterAPI:
         self.tweet_counter = scenario.get(
             "tweet_counter", DEFAULT_STATE_COPY["tweet_counter"]
         )
+
 
     def save_scenario(self) -> Dict[str, Union[dict, str]]:
         """

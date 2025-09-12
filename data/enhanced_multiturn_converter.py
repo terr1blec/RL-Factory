@@ -23,8 +23,8 @@ class EnhancedMultiTurnConverter:
             "TwitterAPI": "posting", 
             "TicketAPI": "ticket",
             "TravelAPI": "travel",
-            "TradingAPI": "trading",
-            "VehicleAPI": "vehicle",
+            "TradingBot": "trading",
+            "VehicleControlAPI": "vehicle", 
             "MathAPI": "math",
             "MessageAPI": "message",
         }
@@ -387,6 +387,62 @@ class EnhancedMultiTurnConverter:
         
         return original_data, golden_data
     
+    def parse_list_string(self, value: str):
+        """解析列表格式的字符串，如 "['a', 'b', 'c']" -> ['a', 'b', 'c']"""
+        value = value.strip()
+        
+        # 检查是否是列表格式的字符串
+        if value.startswith('[') and value.endswith(']'):
+            try:
+                # 尝试使用ast.literal_eval安全地解析
+                import ast
+                return ast.literal_eval(value)
+            except (ValueError, SyntaxError):
+                # 如果ast解析失败，尝试手动解析
+                # 移除方括号
+                inner = value[1:-1].strip()
+                if not inner:
+                    return []
+                
+                # 分割并清理元素
+                items = []
+                current_item = ""
+                in_quotes = False
+                quote_char = None
+                
+                for char in inner:
+                    if char in ['"', "'"] and not in_quotes:
+                        in_quotes = True
+                        quote_char = char
+                        current_item += char
+                    elif char == quote_char and in_quotes:
+                        in_quotes = False
+                        quote_char = None
+                        current_item += char
+                    elif char == ',' and not in_quotes:
+                        # 找到分隔符
+                        item = current_item.strip()
+                        if item.startswith("'") and item.endswith("'"):
+                            item = item[1:-1]
+                        elif item.startswith('"') and item.endswith('"'):
+                            item = item[1:-1]
+                        items.append(item)
+                        current_item = ""
+                    else:
+                        current_item += char
+                
+                # 处理最后一个元素
+                if current_item.strip():
+                    item = current_item.strip()
+                    if item.startswith("'") and item.endswith("'"):
+                        item = item[1:-1]
+                    elif item.startswith('"') and item.endswith('"'):
+                        item = item[1:-1]
+                    items.append(item)
+                
+                return items
+        return value
+
     def parse_function_call(self, call_str: str) -> Tuple[str, dict]:
         """解析函数调用字符串，返回函数名和参数"""
         # 处理类似 "ls(a=True)" 或 "sort('file.txt')" 的格式
@@ -419,6 +475,12 @@ class EnhancedMultiTurnConverter:
                         elif value.startswith('"') and value.endswith('"'):
                             value = value[1:-1]
                         
+                        # 尝试解析为列表（在去除引号后）
+                        if isinstance(value, str):
+                            parsed_list = self.parse_list_string(value)
+                            if isinstance(parsed_list, list):
+                                value = parsed_list
+                        
                         params[key] = value
                 else:
                     # 处理位置参数格式，如 sort('file.txt')
@@ -427,6 +489,11 @@ class EnhancedMultiTurnConverter:
                         value = value[1:-1]
                     elif value.startswith('"') and value.endswith('"'):
                         value = value[1:-1]
+                    else:
+                        # 尝试解析为列表
+                        parsed_list = self.parse_list_string(value)
+                        if isinstance(parsed_list, list):
+                            value = parsed_list
                     
                     # 根据函数名推断参数名
                     if func_name == 'sort':
@@ -601,8 +668,8 @@ class EnhancedMultiTurnConverter:
             load_results.append(('ticket', load_result))
         
         # trading
-        if 'TradingAPI' in prepared_scenario or 'trading' in prepared_scenario:
-            trading_scenario = prepared_scenario.get('TradingAPI') or prepared_scenario.get('trading')
+        if 'TradingBot' in prepared_scenario or 'trading' in prepared_scenario:
+            trading_scenario = prepared_scenario.get('TradingBot') or prepared_scenario.get('trading')
             load_result = self.execute_tool('trading-load_scenario', {'scenario': trading_scenario})
             load_results.append(('trading', load_result))
         
@@ -613,8 +680,8 @@ class EnhancedMultiTurnConverter:
             load_results.append(('travel', load_result))
         
         # vehicle
-        if 'VehicleAPI' in prepared_scenario or 'vehicle' in prepared_scenario:
-            vehicle_scenario = prepared_scenario.get('VehicleAPI') or prepared_scenario.get('vehicle')
+        if 'VehicleControlAPI' in prepared_scenario or 'vehicle' in prepared_scenario:
+            vehicle_scenario =  prepared_scenario.get('VehicleControlAPI') or prepared_scenario.get('vehicle')
             load_result = self.execute_tool('vehicle-load_scenario', {'scenario': vehicle_scenario})
             load_results.append(('vehicle', load_result))
         
@@ -697,7 +764,7 @@ class EnhancedMultiTurnConverter:
         return execution_history
     
     def generate_conversation_history(self, questions: List[List[Dict]], execution_history: List[dict], current_turn: int) -> List[Dict]:
-        """生成标准对话格式的历史记录"""
+        """生成新的对话模板格式的历史记录"""
         conversation = []
         
         for turn_idx in range(current_turn):
@@ -712,28 +779,24 @@ class EnhancedMultiTurnConverter:
                             "content": msg['content']
                         })
                 
-                # 添加助手的工具调用和结果
+                # 添加助手的工具调用和结果 - 分步骤进行
                 if turn_idx < len(execution_history):
                     turn_data = execution_history[turn_idx]
                     
-                    # 构建助手响应（包含工具调用）
-                    assistant_calls = []
+                    # 为每个工具调用创建单独的assistant和tool消息对
                     for action in turn_data['actions']:
                         func_name = action['function_name']
                         params = action['parameters']
                         tool_call = f'<tool_call>{{"name": "{func_name}", "arguments": {json.dumps(params, ensure_ascii=False)}}}</tool_call>'
-                        assistant_calls.append(tool_call)
-                    
-                    if assistant_calls:
+                        
+                        # 添加助手工具调用
                         conversation.append({
                             "role": "assistant",
-                            "content": ' '.join(assistant_calls)
+                            "content": tool_call
                         })
-                    
-                    # 添加工具执行结果
-                    for action in turn_data['actions']:
-                        result = action['execution_result']
                         
+                        # 添加对应的工具执行结果
+                        result = action['execution_result']
                         if result['success'] and 'result' in result:
                             result_content = result['result']
                             if isinstance(result_content, list) and len(result_content) > 0:
@@ -752,6 +815,7 @@ class EnhancedMultiTurnConverter:
                                 "role": "tool", 
                                 "content": f"Error: {result.get('error', 'Unknown error')}"
                             })
+                
         
         return conversation
     
@@ -923,21 +987,19 @@ class EnhancedMultiTurnConverter:
                         # 生成对话历史
                         conversation_history = self.generate_conversation_history(questions, execution_history, turn_idx)
                         
-                        # 构建prompt内容
-                        prompt_content = "You are a helpful assistant that can use tools to help users."
+                        # 构建新的对话模板格式的prompt
                         if conversation_history:
-                            # 将历史对话添加到prompt中
-                            history_text = "\n\nPrevious conversation:\n"
-                            for msg in conversation_history:
-                                if msg['role'] == 'user':
-                                    history_text += f"User: {msg['content']}\n"
-                                elif msg['role'] == 'assistant':
-                                    history_text += f"Assistant: {msg['content']}\n"
-                                elif msg['role'] == 'tool':
-                                    history_text += f"Tool Result: {msg['content']}\n"
-                            prompt_content += history_text
-                        
-                        prompt_content += f"\n\nCurrent request: {question_msg['content']}"
+                            # 使用新的对话模板格式
+                            prompt_content = conversation_history + [{
+                                "content": question_msg['content'],
+                                "role": "user"
+                            }]
+                        else:
+                            # 如果没有历史对话，直接使用当前问题
+                            prompt_content = [{
+                                "content": question_msg['content'],
+                                "role": "user"
+                            }]
                         
                         # 获取当前轮的golden answer并转换格式
                         current_golden = golden_answers[turn_idx] if turn_idx < len(golden_answers) else []
@@ -975,12 +1037,7 @@ class EnhancedMultiTurnConverter:
                             "question": question_msg['content'],
                             "golden_answers": current_golden,
                             "data_source": "BFCL_multi_turn_base",
-                            "prompt": [
-                                {
-                                    "content": prompt_content,
-                                    "role": "user"
-                                }
-                            ],
+                            "prompt": prompt_content,  # 直接使用新的对话模板格式
                             "agent_name": "tool_agent",
                             "ability": "tool_use",
                             "reward_model": {
